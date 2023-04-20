@@ -55,7 +55,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<User> getAllUsersWithGroupID(String groupID) {
-        return null;
+    public Set<User> getAllUsersByGroupID(String groupID) {
+        Group group = this.groupRepository.findById(groupID).orElseThrow();
+        return group.getUserList();
     }
 }

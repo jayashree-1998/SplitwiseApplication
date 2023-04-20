@@ -34,11 +34,4 @@ public class UserController {
         loginResponse.setEmail(user1.getEmail());
         return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
     }
-
-    @GetMapping("/get-all-users-by-group-id/{groupID}")
-    public ResponseEntity<List<User>> getAllUsersInGroup(@PathVariable String groupID) {
-        List<User> userList = this.userService.getAllUsersWithGroupID(groupID);
-        return new ResponseEntity<>(userList,HttpStatus.ACCEPTED);
-    }
-
 }

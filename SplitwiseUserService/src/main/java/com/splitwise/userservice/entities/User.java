@@ -1,6 +1,7 @@
 package com.splitwise.userservice.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +33,7 @@ public class User {
     @Column(name = "mobilenumber",length = 14,nullable = false)
     private String mobileNumber;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "userList", fetch = FetchType.EAGER)
     private Set<Group> groupList = new HashSet<>();
 

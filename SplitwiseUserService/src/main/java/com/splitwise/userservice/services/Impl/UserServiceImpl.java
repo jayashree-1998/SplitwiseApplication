@@ -26,8 +26,4 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findUserByEmailAndPassword(email,password);
     }
 
-    @Override
-    public List<User> getAllUsersWithGroupID(String groupID) {
-        return this.userRepository.findAllByGroupID(groupID);
-    }
 }

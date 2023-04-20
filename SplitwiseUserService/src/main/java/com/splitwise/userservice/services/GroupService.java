@@ -5,6 +5,7 @@ import com.splitwise.userservice.entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GroupService {
 
@@ -18,5 +19,5 @@ public interface GroupService {
 
     List<Group> getALlGroup(String userID);
 
-    List<User> getAllUsersWithGroupID(String groupID);
+    Set<User> getAllUsersByGroupID(String groupID);
 }
