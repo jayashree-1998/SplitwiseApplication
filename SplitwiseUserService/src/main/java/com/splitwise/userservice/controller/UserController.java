@@ -1,6 +1,7 @@
 package com.splitwise.userservice.controller;
 
 
+import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
 import com.splitwise.userservice.payload.LoginResponse;
 import com.splitwise.userservice.repositories.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/user")
@@ -33,5 +35,11 @@ public class UserController {
         loginResponse.setName(user1.getName());
         loginResponse.setEmail(user1.getEmail());
         return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/get-all-groups-by-user-id/{userID}")
+    public ResponseEntity<Set<Group>> getAllUsersInGroup(@PathVariable String userID) {
+        Set<Group> groupList = this.userService.getAllGroupsByUserID(userID);
+        return new ResponseEntity<>(groupList,HttpStatus.ACCEPTED);
     }
 }
