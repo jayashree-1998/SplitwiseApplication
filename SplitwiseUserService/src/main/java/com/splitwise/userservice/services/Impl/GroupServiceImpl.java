@@ -2,6 +2,9 @@ package com.splitwise.userservice.services.Impl;
 
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
+import com.splitwise.userservice.exceptions.ResourceNotFound;
+import com.splitwise.userservice.payload.AddUserToGroup;
+import com.splitwise.userservice.payload.UserListResponse;
 import com.splitwise.userservice.repositories.GroupRepository;
 import com.splitwise.userservice.repositories.UserRepository;
 import com.splitwise.userservice.services.GroupService;
@@ -21,9 +24,8 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     UserRepository userRepository;
     @Override
-    public Group createGroup(Group group,String ownerId) {
-        User user = this.userRepository.findById(ownerId).orElseThrow();
-        group.setOwnerID(ownerId);
+    public Group createGroup(Group group) {
+        User user = this.userRepository.findById(group.getOwnerID()).orElseThrow();
         Set<User> userList = new HashSet<>();
         userList.add(user);
         group.setUserList(userList);
@@ -32,12 +34,22 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group addUserToGroupByEmailId(String GroupId, String emailID) {
-        //find the group
-        //find the
-        return null;
+    public UserListResponse addUserToGroupWithEmailId(String groupID, AddUserToGroup emailID) {
+        UserListResponse userListResponse = new UserListResponse();
+        User user = this.userRepository.findUserByEmail(emailID.getEmailID());
+        Group group = this.groupRepository.findById(groupID).orElseThrow();
+        if(user != null) {
+            Set<User> userList = group.getUserList();
+            userList.add(user);
+            group.setUserList(userList);
+            this.groupRepository.save(group);
+            userListResponse.setUsers(userList);
+            userListResponse.setStatus("success");
+            return userListResponse;
+        }
+        userListResponse.setStatus("userDoesNotExist");
+        return userListResponse;
     }
-
 
     @Override
     public void deleteGroup(String groupID) {
@@ -47,11 +59,6 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public void exitGroup(String groupID, String userID) {
 
-    }
-
-    @Override
-    public List<Group> getALlGroup(String userID) {
-        return null;
     }
 
     @Override
