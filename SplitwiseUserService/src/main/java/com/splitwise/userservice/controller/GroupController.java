@@ -2,7 +2,9 @@ package com.splitwise.userservice.controller;
 
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
-import com.splitwise.userservice.payload.AddUserToGroup;
+import com.splitwise.userservice.payload.AddUserToGroupBody;
+import com.splitwise.userservice.payload.ApiResponse;
+import com.splitwise.userservice.payload.ExitGroupBody;
 import com.splitwise.userservice.payload.UserListResponse;
 import com.splitwise.userservice.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -31,10 +32,22 @@ public class GroupController {
     }
 
 
-    @PostMapping("/add-user-to-group/{groupID}")
-    public ResponseEntity<UserListResponse> addUserToGroup(@RequestBody AddUserToGroup emailID , @PathVariable String groupID) {
-        UserListResponse userList = this.groupService.addUserToGroupWithEmailId(groupID,emailID);
+    @PostMapping("/add-user-to-group")
+    public ResponseEntity<UserListResponse> addUserToGroup(@RequestBody AddUserToGroupBody addUserToGroupBody) {
+        UserListResponse userList = this.groupService.addUserToGroupWithEmailId(addUserToGroupBody.getGroupID(), addUserToGroupBody.getEmailID());
         return new ResponseEntity<>(userList,HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/delete-group/{groupID}")
+    public ResponseEntity<ApiResponse> deleteGroup(@PathVariable String groupID) {
+        this.groupService.deleteGroup(groupID);
+        return new ResponseEntity(new ApiResponse("group deleted successfully!", true), HttpStatus.OK);
+    }
+
+    @PostMapping("/exit-group")
+    public ResponseEntity<ApiResponse> exitGroup(@RequestBody ExitGroupBody exitGroupBody) {
+        String s = this.groupService.exitGroup(exitGroupBody);
+        return new ResponseEntity<>(new ApiResponse(s,true),HttpStatus.OK);
     }
 
 }
