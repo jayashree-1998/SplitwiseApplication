@@ -3,7 +3,8 @@ package com.splitwise.userservice.services.Impl;
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
 import com.splitwise.userservice.exceptions.ResourceNotFound;
-import com.splitwise.userservice.payload.AddUserToGroup;
+import com.splitwise.userservice.payload.AddUserToGroupBody;
+import com.splitwise.userservice.payload.ExitGroupBody;
 import com.splitwise.userservice.payload.UserListResponse;
 import com.splitwise.userservice.repositories.GroupRepository;
 import com.splitwise.userservice.repositories.UserRepository;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -34,10 +34,10 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public UserListResponse addUserToGroupWithEmailId(String groupID, AddUserToGroup emailID) {
+    public UserListResponse addUserToGroupWithEmailId(String groupID, String emailID) {
         UserListResponse userListResponse = new UserListResponse();
-        User user = this.userRepository.findUserByEmail(emailID.getEmailID());
-        Group group = this.groupRepository.findById(groupID).orElseThrow();
+        User user = this.userRepository.findUserByEmail(emailID);
+        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id" , groupID));
         if(user != null) {
             Set<User> userList = group.getUserList();
             userList.add(user);
@@ -53,17 +53,32 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void deleteGroup(String groupID) {
-
+        this.groupRepository.deleteById(groupID);
     }
 
     @Override
-    public void exitGroup(String groupID, String userID) {
-
+    public String exitGroup(ExitGroupBody exitGroupBody) {
+        try {
+            Group group = this.groupRepository.findById(exitGroupBody.getGroupID()).orElseThrow(() -> new ResourceNotFound("Group", "Id", exitGroupBody.getGroupID()));
+            Set<User> userList = group.getUserList();
+            for (User user : userList) {
+                if (user.getUserID().equals(exitGroupBody.getUserID())) {
+                    userList.remove(user);
+                    user.getGroupList().remove(group);
+                    this.userRepository.save(user);
+                    return "success";
+                }
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        return "failure";
     }
 
     @Override
     public Set<User> getAllUsersByGroupID(String groupID) {
-        Group group = this.groupRepository.findById(groupID).orElseThrow();
+        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id" , groupID));
         return group.getUserList();
     }
 }
