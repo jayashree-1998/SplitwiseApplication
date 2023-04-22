@@ -28,4 +28,7 @@ public class Transaction {
 
     @Column(nullable = false)
     private double amount;
+
+    @Column(nullable = false)
+    private boolean hasPaid;
 }

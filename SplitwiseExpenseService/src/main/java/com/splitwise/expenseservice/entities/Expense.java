@@ -22,6 +22,9 @@ public class Expense {
     @Column(nullable = false)
     private String groupID;
 
+    @Transient
+    private String groupName;
+
     @Column(nullable = false)
     private double amount;
 
@@ -30,6 +33,9 @@ public class Expense {
 
     @Column(nullable = false)
     private String addedBy;
+
+    @Transient
+    private String addedByUserName;
 
     @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Paid> paidSet = new HashSet<>();

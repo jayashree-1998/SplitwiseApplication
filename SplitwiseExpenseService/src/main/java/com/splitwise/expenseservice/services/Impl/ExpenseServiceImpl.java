@@ -44,7 +44,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             for(UserAmount user: paidBySet) {
                 Paid paid = new Paid();
                 paid.setAmount(user.getAmount());
-                paid.setPaidBy(user.getUserID());
+                paid.setUserID(user.getUserID());
                 paid.setExpense(savedExpense);
                 this.paidRepository.save(paid);
             }
@@ -53,7 +53,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             for(UserAmount user: owedBySet) {
                 Owe owe = new Owe();
                 owe.setAmount(user.getAmount());
-                owe.setOwedBy(user.getUserID());
+                owe.setUserID(user.getUserID());
                 owe.setExpense(savedExpense);
                 this.oweRepository.save(owe);
             }
@@ -61,6 +61,20 @@ public class ExpenseServiceImpl implements ExpenseService {
         } catch (Exception e) {
             return new ApiResponse("error in adding expense", false);
         }
+    }
 
+    @Override
+    public Set<Expense> getExpenseListWithGroupID(String groupID) {
+        return this.expenseRepository.findExpenseByGroupID(groupID);
+    }
+
+    @Override
+    public ApiResponse deleteExpense(String expenseID) {
+        try {
+            this.expenseRepository.deleteById(expenseID);
+            return new ApiResponse("sucessfully deleted!", true);
+        } catch (Exception e) {
+            return new ApiResponse("error deleting expense!", false);
+        }
     }
 }
