@@ -12,5 +12,6 @@ public class LoginResponse {
         private String user_id;
         private String name;
         private String email;
+        private String mobileNumber;
 
 }

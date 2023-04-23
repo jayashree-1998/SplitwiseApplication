@@ -3,6 +3,7 @@ package com.splitwise.userservice.controller;
 
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
+import com.splitwise.userservice.payload.ApiResponse;
 import com.splitwise.userservice.payload.LoginResponse;
 import com.splitwise.userservice.repositories.UserRepository;
 import com.splitwise.userservice.services.UserService;
@@ -22,9 +23,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register-user")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User registeredUser = this.userService.registerUser(user);
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse> registerUser(@RequestBody User user) {
+        ApiResponse apiResponse = this.userService.registerUser(user);
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -34,6 +35,7 @@ public class UserController {
         loginResponse.setUser_id(user1.getUserID());
         loginResponse.setName(user1.getName());
         loginResponse.setEmail(user1.getEmail());
+        loginResponse.setMobileNumber(user1.getMobileNumber());
         return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
     }
 
