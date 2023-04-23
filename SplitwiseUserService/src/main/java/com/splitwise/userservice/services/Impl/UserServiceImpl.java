@@ -38,6 +38,4 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findById(userID).orElseThrow();
         return user.getGroupList();
     }
-
-
 }
