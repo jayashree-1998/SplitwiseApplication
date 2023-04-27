@@ -3,8 +3,10 @@ package com.splitwise.expenseservice.services.Impl;
 import com.splitwise.expenseservice.entities.Expense;
 import com.splitwise.expenseservice.entities.Owe;
 import com.splitwise.expenseservice.entities.Paid;
+import com.splitwise.expenseservice.exceptions.ResourceNotFound;
 import com.splitwise.expenseservice.payload.ApiResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
+import com.splitwise.expenseservice.payload.ExpenseDetail;
 import com.splitwise.expenseservice.payload.UserAmount;
 import com.splitwise.expenseservice.respository.ExpenseRepository;
 import com.splitwise.expenseservice.respository.OweRepository;
@@ -76,5 +78,20 @@ public class ExpenseServiceImpl implements ExpenseService {
         } catch (Exception e) {
             return new ApiResponse("error deleting expense!", false);
         }
+    }
+
+    @Override
+    public ExpenseDetail getExpenseDetailByExpenseID(String expenseID) {
+
+        Expense expense = this.expenseRepository.findById(expenseID).orElseThrow(()-> new ResourceNotFound("Expense", "ID", expenseID));
+        ExpenseDetail expenseDetail = new ExpenseDetail();
+        expenseDetail.setExpenseID(expense.getExpenseID());
+        expenseDetail.setDate(expense.getDate());
+        expenseDetail.setAmount(expense.getAmount());
+        expenseDetail.setPaidSet(expense.getPaidSet());
+        expenseDetail.setOweSet(expense.getOweSet());
+        expenseDetail.setGroupID(expense.getGroupID());
+        expenseDetail.setAddedBy(expense.getAddedBy());
+        return expenseDetail;
     }
 }

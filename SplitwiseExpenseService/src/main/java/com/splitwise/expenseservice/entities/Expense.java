@@ -1,5 +1,6 @@
 package com.splitwise.expenseservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,11 +20,11 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String expenseID;
 
+//    TODO: uncomment this
+//    @Column(nullable = false)
+//    private String expenseName;
     @Column(nullable = false)
     private String groupID;
-
-    @Transient
-    private String groupName;
 
     @Column(nullable = false)
     private double amount;
@@ -34,12 +35,11 @@ public class Expense {
     @Column(nullable = false)
     private String addedBy;
 
-    @Transient
-    private String addedByUserName;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Paid> paidSet = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Owe> oweSet = new HashSet<>();
 

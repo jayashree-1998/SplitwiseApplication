@@ -3,6 +3,7 @@ package com.splitwise.expenseservice.controller;
 import com.splitwise.expenseservice.entities.Expense;
 import com.splitwise.expenseservice.payload.ApiResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
+import com.splitwise.expenseservice.payload.ExpenseDetail;
 import com.splitwise.expenseservice.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,12 @@ public class ExpenseController {
         return new ResponseEntity<>(expenseSet, HttpStatus.OK);
     }
 
+    @GetMapping("get-expense-detail/{expenseID}")
+    public ResponseEntity<ExpenseDetail> getExpenseDetail(@PathVariable String expenseID) {
+        ExpenseDetail expenseDetail = this.expenseService.getExpenseDetailByExpenseID(expenseID);
+        return new ResponseEntity<>(expenseDetail, HttpStatus.OK);
+    }
+
     @DeleteMapping ("/delete-expense/{expenseID}")
     public ResponseEntity<ApiResponse> deleteExpense(@PathVariable String expenseID) {
         ApiResponse apiResponse = this.expenseService.deleteExpense(expenseID);
@@ -41,4 +48,6 @@ public class ExpenseController {
         // TODO: transaction algorithm not done
         return new ResponseEntity<>(new ApiResponse("", false), HttpStatus.OK);
     }
+
+
 }

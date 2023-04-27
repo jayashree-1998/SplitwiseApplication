@@ -29,8 +29,4 @@ public class Paid {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "expenseid")
     private Expense expense;
-
-    @Transient
-    private String userName;
-
 }

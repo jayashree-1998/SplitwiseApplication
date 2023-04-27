@@ -3,6 +3,7 @@ package com.splitwise.expenseservice.services;
 import com.splitwise.expenseservice.entities.Expense;
 import com.splitwise.expenseservice.payload.ApiResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
+import com.splitwise.expenseservice.payload.ExpenseDetail;
 
 import java.util.Set;
 
@@ -12,4 +13,6 @@ public interface ExpenseService {
     Set<Expense> getExpenseListWithGroupID(String groupID);
 
     ApiResponse deleteExpense(String expenseID);
+
+    ExpenseDetail getExpenseDetailByExpenseID(String expenseID);
 }
