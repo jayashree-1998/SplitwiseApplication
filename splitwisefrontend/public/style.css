@@ -171,3 +171,33 @@ form .button input:hover {
 .button2:hover {
   cursor: pointer;
 }
+
+.button3 {
+  font-size: 18px;
+  font-weight: 300s;
+  border-radius: 8px;
+  background: transparent;
+  margin: 8px;
+  align-self: stretch;
+  text-align: start;
+  color: #fff;
+  border: none;
+  padding: revert-layer;
+}
+
+.button3:hover {
+  border-radius: 8px;
+  background: white;
+  color: #518495;
+  margin: 8px;
+  align-self: stretch;
+  text-align: start;
+}
+
+.sidebar {
+  font-size: 18px;
+  font-weight: 300s;
+  color: white;
+  padding: revert-layer;
+  margin: 8px;
+}

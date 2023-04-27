@@ -29,7 +29,11 @@ function Login() {
     if (data) {
       if (data.email === loginData.email) {
         toast.success("Welcome");
-        navigate("/dashboard");
+        navigate("/dashboard", {
+          state: {
+            userObj: data,
+          },
+        });
       }
     } else {
       toast.error("Incorrect email or password");

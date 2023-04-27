@@ -37,6 +37,7 @@ public class GroupServiceImpl implements GroupService {
     public UserListResponse addUserToGroupWithEmailId(String groupID, String emailID) {
         UserListResponse userListResponse = new UserListResponse();
         User user = this.userRepository.findUserByEmail(emailID);
+        System.out.println(user.getEmail());
         Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id" , groupID));
         if(user != null) {
             Set<User> userList = group.getUserList();
