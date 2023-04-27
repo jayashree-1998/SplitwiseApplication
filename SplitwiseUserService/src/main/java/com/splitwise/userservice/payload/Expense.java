@@ -19,4 +19,6 @@ public class Expense {
     private String groupID;
     private double amount;
     private Date date;
+    private String addedBy;
+
 }

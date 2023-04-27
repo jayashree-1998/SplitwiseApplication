@@ -100,9 +100,7 @@ public class GroupServiceImpl implements GroupService {
 
         // get expense list of group from expense service
 
-        Set<Expense> expenses = restTemplate.getForObject("http://EXPENSE-SERVICE/api/expense/get-expense-list-by-group-id/9c964fa5-dbed-451a-ac99-4bfceceb4317", HashSet.class);
-        System.out.println(expenses);
-
+        Set<Expense> expenses = restTemplate.getForObject("http://EXPENSE-SERVICE/api/expense/get-expense-list-by-group-id/"+group.getGroupID(), HashSet.class);
         groupDetail.setExpenseList(expenses);
 
         return groupDetail;
