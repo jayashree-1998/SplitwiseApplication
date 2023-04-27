@@ -16,6 +16,8 @@ public class ExpenseBody {
     private String groupID;
     private double amount;
     private String addedBy;
+
+    private String expenseName;
     private Set<UserAmount> paidBySet;
     private Set<UserAmount> owedBySet;
 }

@@ -2,10 +2,7 @@ package com.splitwise.userservice.controller;
 
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
-import com.splitwise.userservice.payload.AddUserToGroupBody;
-import com.splitwise.userservice.payload.ApiResponse;
-import com.splitwise.userservice.payload.ExitGroupBody;
-import com.splitwise.userservice.payload.UserListResponse;
+import com.splitwise.userservice.payload.*;
 import com.splitwise.userservice.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +20,12 @@ public class GroupController {
     public ResponseEntity<Group> createGroup(@RequestBody Group group) {
         Group group1 = this.groupService.createGroup(group);
         return ResponseEntity.status(HttpStatus.OK).body(group1);
+    }
+
+    @GetMapping("/get-group-detail/{groupID}")
+    public ResponseEntity<GroupDetail> getGroupDetail(@PathVariable String groupID ) {
+        GroupDetail groupDetail = this.groupService.getGroupDetail(groupID);
+        return new ResponseEntity<>(groupDetail, HttpStatus.OK);
     }
 
     @GetMapping("/get-all-users-by-group-id/{groupID}")

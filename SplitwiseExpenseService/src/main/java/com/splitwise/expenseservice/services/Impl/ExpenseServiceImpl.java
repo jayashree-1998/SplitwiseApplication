@@ -32,13 +32,14 @@ public class ExpenseServiceImpl implements ExpenseService {
     OweRepository oweRepository;
     @Override
     public ApiResponse addExpense(ExpenseBody expenseBody) {
-        try {
+//        try {
             Date date = new Date();
             System.out.println(date);
             Expense expense = new Expense();
             expense.setGroupID(expenseBody.getGroupID());
             expense.setAmount(expenseBody.getAmount());
             expense.setAddedBy(expenseBody.getAddedBy());
+            expense.setExpenseName(expenseBody.getExpenseName());
             expense.setDate(date);
             Expense savedExpense = this.expenseRepository.save(expense);
 
@@ -60,9 +61,9 @@ public class ExpenseServiceImpl implements ExpenseService {
                 this.oweRepository.save(owe);
             }
             return new ApiResponse("expense added successfully", true);
-        } catch (Exception e) {
-            return new ApiResponse("error in adding expense", false);
-        }
+//        } catch (Exception e) {
+//            return new ApiResponse("error in adding expense", false);
+//        }
     }
 
     @Override
