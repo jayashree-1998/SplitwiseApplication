@@ -36,6 +36,7 @@ public class UserController {
         loginResponse.setName(user1.getName());
         loginResponse.setEmail(user1.getEmail());
         loginResponse.setMobileNumber(user1.getMobileNumber());
+        loginResponse.setGroupList(user1.getGroupList());
         return new ResponseEntity<>(loginResponse, HttpStatus.ACCEPTED);
     }
 
