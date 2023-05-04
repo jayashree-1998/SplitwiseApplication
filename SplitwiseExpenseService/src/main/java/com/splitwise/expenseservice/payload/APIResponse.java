@@ -7,7 +7,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class ApiResponse {
-    private String message;
+public class APIResponse {
+
+    private Object object;
     private boolean success;
 }

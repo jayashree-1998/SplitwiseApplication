@@ -1,18 +1,18 @@
 package com.splitwise.expenseservice.services;
 
 import com.splitwise.expenseservice.entities.Expense;
-import com.splitwise.expenseservice.payload.ApiResponse;
+import com.splitwise.expenseservice.payload.APIResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
 import com.splitwise.expenseservice.payload.ExpenseDetail;
 
 import java.util.Set;
 
 public interface ExpenseService {
-    ApiResponse addExpense(ExpenseBody expenseBody);
+    APIResponse addExpense(ExpenseBody expenseBody);
 
-    Set<Expense> getExpenseListWithGroupID(String groupID);
+    APIResponse getExpenseListWithGroupID(String groupID);
 
-    ApiResponse deleteExpense(String expenseID);
+    APIResponse deleteExpense(String expenseID);
 
-    ExpenseDetail getExpenseDetailByExpenseID(String expenseID);
+    APIResponse getExpenseDetailByExpenseID(String expenseID);
 }

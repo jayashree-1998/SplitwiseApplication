@@ -3,6 +3,7 @@ package com.splitwise.userservice.services.Impl;
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
 import com.splitwise.userservice.exceptions.ResourceNotFound;
+import com.splitwise.userservice.payload.APIResponse;
 import com.splitwise.userservice.payload.ExitGroupBody;
 import com.splitwise.userservice.payload.Expense;
 import com.splitwise.userservice.payload.GroupDetail;
@@ -31,7 +32,7 @@ public class GroupServiceImpl implements GroupService {
     RestTemplate restTemplate;
     @Override
     public Group createGroup(Group group) {
-        User user = this.userRepository.findById(group.getOwnerID()).orElseThrow();
+        User user = this.userRepository.findById(group.getOwnerID()).orElseThrow(() -> new ResourceNotFound("User", "Id"));
         Set<User> userList = new HashSet<>();
         userList.add(user);
         group.setUserList(userList);
@@ -39,22 +40,25 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public UserListResponse addUserToGroupWithEmailId(String groupID, String emailID) {
-        UserListResponse userListResponse = new UserListResponse();
-        User user = this.userRepository.findUserByEmail(emailID);
-        System.out.println(user.getEmail());
-        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id" , groupID));
-        if(user != null) {
+    public APIResponse addUserToGroupWithEmailId(String groupID, String emailID) {
+        APIResponse apiResponse = new APIResponse();
+        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id"));
+        try {
+            User user = this.userRepository.findUserByEmail(emailID);
+            System.out.println(user.getEmail());
             Set<User> userList = group.getUserList();
             userList.add(user);
             group.setUserList(userList);
             this.groupRepository.save(group);
-            userListResponse.setUsers(userList);
-            userListResponse.setStatus("success");
-            return userListResponse;
+            apiResponse.setObject(userList);
+            apiResponse.setSuccess(true);
+            return apiResponse;
+        } catch (Exception e) {
+            apiResponse.setObject("User does not exist");
+            apiResponse.setSuccess(false);
+            return apiResponse;
         }
-        userListResponse.setStatus("userDoesNotExist");
-        return userListResponse;
+
     }
 
     @Override
@@ -63,34 +67,34 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public String exitGroup(ExitGroupBody exitGroupBody) {
+    public APIResponse exitGroup(ExitGroupBody exitGroupBody) {
         try {
-            Group group = this.groupRepository.findById(exitGroupBody.getGroupID()).orElseThrow(() -> new ResourceNotFound("Group", "Id", exitGroupBody.getGroupID()));
+            Group group = this.groupRepository.findById(exitGroupBody.getGroupID()).orElseThrow(() -> new ResourceNotFound("Group", "Id"));
             Set<User> userList = group.getUserList();
             for (User user : userList) {
                 if (user.getUserID().equals(exitGroupBody.getUserID())) {
                     userList.remove(user);
                     user.getGroupList().remove(group);
                     this.userRepository.save(user);
-                    return "success";
+                    return new APIResponse("Group exited",true);
                 }
             }
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-        return "failure";
+        return new APIResponse("Unable to exit qroup",false);
     }
 
     @Override
     public Set<User> getAllUsersByGroupID(String groupID) {
-        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id" , groupID));
+        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id" ));
         return group.getUserList();
     }
 
     @Override
-    public GroupDetail getGroupDetail(String groupID) {
-        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id" , groupID));
+    public APIResponse getGroupDetail(String groupID) {
+        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id"));
         GroupDetail groupDetail = new GroupDetail();
         // group Info
         groupDetail.setGroup(group);
@@ -103,6 +107,6 @@ public class GroupServiceImpl implements GroupService {
         Set<Expense> expenses = restTemplate.getForObject("http://EXPENSE-SERVICE/api/expense/get-expense-list-by-group-id/"+group.getGroupID(), HashSet.class);
         groupDetail.setExpenseList(expenses);
 
-        return groupDetail;
+        return new APIResponse(groupDetail,true);
     }
 }

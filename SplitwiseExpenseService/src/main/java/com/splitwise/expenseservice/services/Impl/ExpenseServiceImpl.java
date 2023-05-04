@@ -4,7 +4,7 @@ import com.splitwise.expenseservice.entities.Expense;
 import com.splitwise.expenseservice.entities.Owe;
 import com.splitwise.expenseservice.entities.Paid;
 import com.splitwise.expenseservice.exceptions.ResourceNotFound;
-import com.splitwise.expenseservice.payload.ApiResponse;
+import com.splitwise.expenseservice.payload.APIResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
 import com.splitwise.expenseservice.payload.ExpenseDetail;
 import com.splitwise.expenseservice.payload.UserAmount;
@@ -31,8 +31,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Autowired
     OweRepository oweRepository;
     @Override
-    public ApiResponse addExpense(ExpenseBody expenseBody) {
-//        try {
+    public APIResponse addExpense(ExpenseBody expenseBody) {
+        try {
             Date date = new Date();
             System.out.println(date);
             Expense expense = new Expense();
@@ -60,31 +60,37 @@ public class ExpenseServiceImpl implements ExpenseService {
                 owe.setExpense(savedExpense);
                 this.oweRepository.save(owe);
             }
-            return new ApiResponse("expense added successfully", true);
-//        } catch (Exception e) {
-//            return new ApiResponse("error in adding expense", false);
-//        }
-    }
-
-    @Override
-    public Set<Expense> getExpenseListWithGroupID(String groupID) {
-        return this.expenseRepository.findExpenseByGroupID(groupID);
-    }
-
-    @Override
-    public ApiResponse deleteExpense(String expenseID) {
-        try {
-            this.expenseRepository.deleteById(expenseID);
-            return new ApiResponse("sucessfully deleted!", true);
+            return new APIResponse("Expense added successfully", true);
         } catch (Exception e) {
-            return new ApiResponse("error deleting expense!", false);
+            return new APIResponse("Error in adding expense", false);
         }
     }
 
     @Override
-    public ExpenseDetail getExpenseDetailByExpenseID(String expenseID) {
+    public APIResponse getExpenseListWithGroupID(String groupID) {
+        Set<Expense> expenseSet = this.expenseRepository.findExpenseByGroupID(groupID);
+        if(expenseSet != null) {
+            return new APIResponse(expenseSet,true);
+        }
+        else {
+            return new APIResponse("Error fetching Expense List",false);
+        }
+    }
 
-        Expense expense = this.expenseRepository.findById(expenseID).orElseThrow(()-> new ResourceNotFound("Expense", "ID", expenseID));
+    @Override
+    public APIResponse deleteExpense(String expenseID) {
+        try {
+            this.expenseRepository.deleteById(expenseID);
+            return new APIResponse("Successfully deleted expense!", true);
+        } catch (Exception e) {
+            return new APIResponse("Error deleting expense!", false);
+        }
+    }
+
+    @Override
+    public APIResponse getExpenseDetailByExpenseID(String expenseID) {
+
+        Expense expense = this.expenseRepository.findById(expenseID).orElseThrow(()-> new ResourceNotFound("Expense", "ID"));
         ExpenseDetail expenseDetail = new ExpenseDetail();
         expenseDetail.setExpenseID(expense.getExpenseID());
         expenseDetail.setDate(expense.getDate());
@@ -93,6 +99,6 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseDetail.setOweSet(expense.getOweSet());
         expenseDetail.setGroupID(expense.getGroupID());
         expenseDetail.setAddedBy(expense.getAddedBy());
-        return expenseDetail;
+        return new APIResponse(expenseDetail,true);
     }
 }

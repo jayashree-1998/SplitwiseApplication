@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { login } from "../services/loginService";
 import InputField from "../components/InputField";
 import { useNavigate } from "react-router-dom";
@@ -27,16 +27,16 @@ function Login() {
     console.log(responseData.data);
     const data = responseData.data;
     if (data) {
-      if (data.email === loginData.email) {
+      if (data.success === true && data.object.email === loginData.email) {
         toast.success("Welcome");
         navigate("/dashboard", {
           state: {
             userObj: data,
           },
         });
+      } else {
+        toast.error(data.object);
       }
-    } else {
-      toast.error("Incorrect email or password");
     }
   }
 

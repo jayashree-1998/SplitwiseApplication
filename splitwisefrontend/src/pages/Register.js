@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,14 +21,13 @@ function Register() {
       toast.error("New password and Confirm Password don't match");
     } else {
       const responseData = await register(userData);
-      console.log(responseData.data.message);
-      if (responseData.data && responseData.data.success === true) {
-        toast.success(
-          "You have been successfully registered. Please login to continue!"
-        );
+      const data = responseData.data;
+      console.log(data);
+      if (data && data.success === true) {
+        toast.success(data.object);
         navigate("/login");
       } else {
-        toast.error("Email id already exists!Please try again");
+        toast.error(data.object);
       }
     }
   }
