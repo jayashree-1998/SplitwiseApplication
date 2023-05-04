@@ -3,12 +3,13 @@ package com.splitwise.userservice.payload;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ApiResponse {
-    private String message;
+public class APIResponse {
+    private Object object;
     private boolean success;
 }

@@ -3,12 +3,9 @@ package com.splitwise.userservice.exceptions;
 public class ResourceNotFound extends RuntimeException{
     String resourceName;
     String fieldName;
-    String fieldValue;
-
-    public ResourceNotFound(String resourceName,String fieldName,String fieldValue) {
-        super(String.format("%s not found with %s: %s",resourceName,fieldName,fieldValue ));
+    public ResourceNotFound(String resourceName,String fieldName) {
+        super(String.format("%s: %s not found",resourceName,fieldName ));
         this.fieldName=fieldName;
         this.resourceName=resourceName;
-        this.fieldValue=fieldValue;
     }
 }
