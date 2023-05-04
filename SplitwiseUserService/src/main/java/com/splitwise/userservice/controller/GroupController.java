@@ -2,10 +2,7 @@ package com.splitwise.userservice.controller;
 
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
-import com.splitwise.userservice.payload.AddUserToGroupBody;
-import com.splitwise.userservice.payload.APIResponse;
-import com.splitwise.userservice.payload.ExitGroupBody;
-import com.splitwise.userservice.payload.UserListResponse;
+import com.splitwise.userservice.payload.*;
 import com.splitwise.userservice.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +22,12 @@ public class GroupController {
         return new ResponseEntity<>(new APIResponse(group1,true), HttpStatus.CREATED);
     }
 
+    @GetMapping("/get-group-detail/{groupID}")
+    public ResponseEntity<APIResponse> getGroupDetail(@PathVariable String groupID ) {
+        APIResponse apiResponse = this.groupService.getGroupDetail(groupID);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     @GetMapping("/get-all-users-by-group-id/{groupID}")
     public ResponseEntity<APIResponse> getAllUsersInGroup(@PathVariable String groupID) {
         Set<User> userList = this.groupService.getAllUsersByGroupID(groupID);
@@ -41,7 +44,7 @@ public class GroupController {
     @DeleteMapping("/delete-group/{groupID}")
     public ResponseEntity<APIResponse> deleteGroup(@PathVariable String groupID) {
         this.groupService.deleteGroup(groupID);
-        return new ResponseEntity(new APIResponse("group deleted successfully!", true), HttpStatus.OK);
+        return new ResponseEntity(new APIResponse("Group deleted successfully!", true), HttpStatus.OK);
     }
 
     @PostMapping("/exit-group")

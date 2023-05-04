@@ -1,7 +1,7 @@
 package com.splitwise.expenseservice.controller;
 
 import com.splitwise.expenseservice.entities.Expense;
-import com.splitwise.expenseservice.payload.ApiResponse;
+import com.splitwise.expenseservice.payload.APIResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
 import com.splitwise.expenseservice.payload.ExpenseDetail;
 import com.splitwise.expenseservice.services.ExpenseService;
@@ -20,33 +20,33 @@ public class ExpenseController {
     ExpenseService expenseService;
 
     @PostMapping("/add-expense")
-    public ResponseEntity<ApiResponse> addExpense(@RequestBody ExpenseBody expenseBody) {
-        ApiResponse apiResponse = this.expenseService.addExpense(expenseBody);
+    public ResponseEntity<APIResponse> addExpense(@RequestBody ExpenseBody expenseBody) {
+        APIResponse apiResponse = this.expenseService.addExpense(expenseBody);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-expense-list-by-group-id/{groupID}")
-    public ResponseEntity<Set<Expense>> getExpenseListForGroup(@PathVariable String groupID) {
-        Set<Expense> expenseSet = this.expenseService.getExpenseListWithGroupID(groupID);
-        return new ResponseEntity<>(expenseSet, HttpStatus.OK);
+    public ResponseEntity<APIResponse> getExpenseListForGroup(@PathVariable String groupID) {
+        APIResponse apiResponse = this.expenseService.getExpenseListWithGroupID(groupID);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("get-expense-detail/{expenseID}")
-    public ResponseEntity<ExpenseDetail> getExpenseDetail(@PathVariable String expenseID) {
-        ExpenseDetail expenseDetail = this.expenseService.getExpenseDetailByExpenseID(expenseID);
-        return new ResponseEntity<>(expenseDetail, HttpStatus.OK);
+    public ResponseEntity<APIResponse> getExpenseDetail(@PathVariable String expenseID) {
+        APIResponse apiResponse = this.expenseService.getExpenseDetailByExpenseID(expenseID);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping ("/delete-expense/{expenseID}")
-    public ResponseEntity<ApiResponse> deleteExpense(@PathVariable String expenseID) {
-        ApiResponse apiResponse = this.expenseService.deleteExpense(expenseID);
+    public ResponseEntity<APIResponse> deleteExpense(@PathVariable String expenseID) {
+        APIResponse apiResponse = this.expenseService.deleteExpense(expenseID);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/settle-up/{groupID}")
-    public ResponseEntity<ApiResponse> settleUp(@PathVariable String groupID) {
+    public ResponseEntity<APIResponse> settleUp(@PathVariable String groupID) {
         // TODO: transaction algorithm not done
-        return new ResponseEntity<>(new ApiResponse("", false), HttpStatus.OK);
+        return new ResponseEntity<>(new APIResponse("", false), HttpStatus.OK);
     }
 
 

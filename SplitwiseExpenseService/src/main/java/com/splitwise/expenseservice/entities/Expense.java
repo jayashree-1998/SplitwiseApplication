@@ -20,9 +20,9 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String expenseID;
 
-//    TODO: uncomment this
-//    @Column(nullable = false)
-//    private String expenseName;
+    @Column(nullable = false)
+    private String expenseName;
+
     @Column(nullable = false)
     private String groupID;
 

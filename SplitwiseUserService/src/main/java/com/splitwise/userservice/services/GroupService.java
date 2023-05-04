@@ -5,6 +5,7 @@ import com.splitwise.userservice.entities.User;
 import com.splitwise.userservice.payload.APIResponse;
 import com.splitwise.userservice.payload.AddUserToGroupBody;
 import com.splitwise.userservice.payload.ExitGroupBody;
+import com.splitwise.userservice.payload.GroupDetail;
 import com.splitwise.userservice.payload.UserListResponse;
 
 import java.util.Set;
@@ -20,4 +21,6 @@ public interface GroupService {
     APIResponse exitGroup(ExitGroupBody exitGroupBody);
 
     Set<User> getAllUsersByGroupID(String groupID);
+
+    APIResponse getGroupDetail(String groupID);
 }
