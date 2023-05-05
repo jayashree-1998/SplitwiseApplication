@@ -177,19 +177,17 @@ form .button input:hover {
   font-weight: 300s;
   border-radius: 8px;
   background: transparent;
-  margin: 8px;
   align-self: stretch;
   text-align: start;
   color: #fff;
   border: none;
-  padding: revert-layer;
+  padding: 12px 8px;
 }
 
 .button3:hover {
   border-radius: 8px;
   background: white;
   color: #518495;
-  margin: 8px;
   align-self: stretch;
   text-align: start;
 }
@@ -200,4 +198,27 @@ form .button input:hover {
   color: white;
   padding: revert-layer;
   margin: 8px;
+}
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(234, 229, 229, 0.6);
+}
+
+.modal-container {
+  position: fixed;
+  max-width: 30rem;
+  width: 80%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem 3rem;
+  border-radius: 0.5rem;
+  background: rgb(255, 255, 255);
 }

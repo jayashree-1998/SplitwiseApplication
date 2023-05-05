@@ -1,16 +1,27 @@
 import axios from "axios";
+import { IPAddress } from "../utils/constants";
 
-const loginAPI = `http://localhost:9081/api/user/login`;
+const loginAPI = `http://${IPAddress}/user/login`;
 
-const registerAPI = `http://localhost:9081/api/user/register-user`;
+const registerAPI = `http://${IPAddress}/user/register-user`;
 
 async function login(loginData) {
-  const responseData = await axios.post(loginAPI, loginData);
+  const loginObject = {
+    email: loginData.email,
+    password: loginData.password,
+  };
+  const responseData = await axios.post(loginAPI, loginObject);
   return responseData;
 }
 
 async function register(registerData) {
-  const responseData = await axios.post(registerAPI, registerData);
+  const registrationObject = {
+    name: registerData.name,
+    email: registerData.email,
+    password: registerData.password,
+    mobileNumber: registerData.mobileNumber,
+  };
+  const responseData = await axios.post(registerAPI, registrationObject);
   return responseData;
 }
 
