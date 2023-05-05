@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/group")
+@RequestMapping("group")
 public class GroupController {
     @Autowired GroupService groupService;
 
@@ -41,14 +41,14 @@ public class GroupController {
         return new ResponseEntity<>(apiResponse,HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/delete-group/{groupID}")
-    public ResponseEntity<APIResponse> deleteGroup(@PathVariable String groupID) {
-        this.groupService.deleteGroup(groupID);
-        return new ResponseEntity(new APIResponse("Group deleted successfully!", true), HttpStatus.OK);
+    @DeleteMapping("/delete-group")
+    public ResponseEntity<APIResponse> deleteGroup(@RequestBody UserGroupBody userGroupBody) {
+        APIResponse apiResponse = this.groupService.deleteGroup(userGroupBody.getGroupID(), userGroupBody.getUserID());
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PostMapping("/exit-group")
-    public ResponseEntity<APIResponse> exitGroup(@RequestBody ExitGroupBody exitGroupBody) {
+    public ResponseEntity<APIResponse> exitGroup(@RequestBody UserGroupBody exitGroupBody) {
         APIResponse apiResponse = this.groupService.exitGroup(exitGroupBody);
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }

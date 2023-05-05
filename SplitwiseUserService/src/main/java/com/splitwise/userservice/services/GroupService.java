@@ -3,10 +3,7 @@ package com.splitwise.userservice.services;
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
 import com.splitwise.userservice.payload.APIResponse;
-import com.splitwise.userservice.payload.AddUserToGroupBody;
-import com.splitwise.userservice.payload.ExitGroupBody;
-import com.splitwise.userservice.payload.GroupDetail;
-import com.splitwise.userservice.payload.UserListResponse;
+import com.splitwise.userservice.payload.UserGroupBody;
 
 import java.util.Set;
 
@@ -16,9 +13,9 @@ public interface GroupService {
 
     APIResponse addUserToGroupWithEmailId(String groupId, String emailId);
 
-    void deleteGroup(String groupID);
+    APIResponse deleteGroup(String groupID, String ownerID);
 
-    APIResponse exitGroup(ExitGroupBody exitGroupBody);
+    APIResponse exitGroup(UserGroupBody exitGroupBody);
 
     Set<User> getAllUsersByGroupID(String groupID);
 

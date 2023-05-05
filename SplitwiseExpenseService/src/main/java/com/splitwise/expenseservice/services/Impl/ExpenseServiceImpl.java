@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -67,13 +68,15 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public APIResponse getExpenseListWithGroupID(String groupID) {
+    public Set<Expense> getExpenseListWithGroupID(String groupID) {
+        HashSet<Expense> expenses = new HashSet<>();
         Set<Expense> expenseSet = this.expenseRepository.findExpenseByGroupID(groupID);
         if(expenseSet != null) {
-            return new APIResponse(expenseSet,true);
+            expenses = (HashSet<Expense>) expenseSet;
+            return expenses;
         }
         else {
-            return new APIResponse("Error fetching Expense List",false);
+            return expenses;
         }
     }
 
@@ -84,6 +87,19 @@ public class ExpenseServiceImpl implements ExpenseService {
             return new APIResponse("Successfully deleted expense!", true);
         } catch (Exception e) {
             return new APIResponse("Error deleting expense!", false);
+        }
+    }
+
+    @Override
+    public APIResponse deleteExpenseWithGroupID(String groupID) {
+        try {
+            Set<Expense> expenses = this.expenseRepository.findExpenseByGroupID(groupID);
+            for(Expense e: expenses) {
+                this.expenseRepository.deleteById(e.getExpenseID());
+            }
+            return new APIResponse("Expenses deleted!", true);
+        } catch(Exception e) {
+            return new APIResponse("Error deleting expenses!", false);
         }
     }
 

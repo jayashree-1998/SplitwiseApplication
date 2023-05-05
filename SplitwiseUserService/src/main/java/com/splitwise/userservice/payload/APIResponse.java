@@ -1,15 +1,17 @@
 package com.splitwise.userservice.payload;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class APIResponse {
     private Object object;
     private boolean success;
+
+    public boolean getSuccess() {
+        return this.success;
+    }
 }

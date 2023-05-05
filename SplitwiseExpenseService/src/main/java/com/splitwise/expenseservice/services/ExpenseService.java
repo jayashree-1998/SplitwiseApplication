@@ -10,9 +10,11 @@ import java.util.Set;
 public interface ExpenseService {
     APIResponse addExpense(ExpenseBody expenseBody);
 
-    APIResponse getExpenseListWithGroupID(String groupID);
+    Set<Expense> getExpenseListWithGroupID(String groupID);
 
     APIResponse deleteExpense(String expenseID);
+
+    APIResponse deleteExpenseWithGroupID(String groupID);
 
     APIResponse getExpenseDetailByExpenseID(String expenseID);
 }
