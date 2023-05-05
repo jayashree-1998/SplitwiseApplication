@@ -45,7 +45,6 @@ public class ExpenseController {
     // NOTE: this API is used by USER-SERVICE when group is being deleted,
     @DeleteMapping("/delete-expense-of-group/{groupID}")
     public ResponseEntity<APIResponse> deleteExpenseWithGroupID(@PathVariable String groupID) {
-//        return new ResponseEntity<>(new APIResponse("deleted", true), HttpStatus.OK);
         APIResponse apiResponse = this.expenseService.deleteExpenseWithGroupID(groupID);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
@@ -54,6 +53,7 @@ public class ExpenseController {
     @GetMapping("/settle-up/{groupID}")
     public ResponseEntity<APIResponse> settleUp(@PathVariable String groupID) {
         // TODO: transaction algorithm not done
+        this.expenseService.settleUpGroup(groupID);
         return new ResponseEntity<>(new APIResponse("", false), HttpStatus.OK);
     }
 

@@ -4,10 +4,7 @@ import com.splitwise.expenseservice.entities.Expense;
 import com.splitwise.expenseservice.entities.Owe;
 import com.splitwise.expenseservice.entities.Paid;
 import com.splitwise.expenseservice.exceptions.ResourceNotFound;
-import com.splitwise.expenseservice.payload.APIResponse;
-import com.splitwise.expenseservice.payload.ExpenseBody;
-import com.splitwise.expenseservice.payload.ExpenseDetail;
-import com.splitwise.expenseservice.payload.UserAmount;
+import com.splitwise.expenseservice.payload.*;
 import com.splitwise.expenseservice.respository.ExpenseRepository;
 import com.splitwise.expenseservice.respository.OweRepository;
 import com.splitwise.expenseservice.respository.PaidRepository;
@@ -15,9 +12,7 @@ import com.splitwise.expenseservice.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -116,5 +111,53 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseDetail.setGroupID(expense.getGroupID());
         expenseDetail.setAddedBy(expense.getAddedBy());
         return new APIResponse(expenseDetail,true);
+    }
+
+    @Override
+    public void settleUpGroup(String groupID) {
+
+//        // get expense list from expense_table
+//        Set<Expense> expenseSet = this.expenseRepository.findExpenseByGroupID(groupID);
+//
+//
+//        // Settle Up Algorithm
+//
+//
+//        // balance list
+//        HashMap<String, Double> balanceList = new HashMap<>();
+//        // TODO: create balance list
+//
+//        for(Expense expense: expenseSet) {
+//            Set<Paid> paidSet = expense.getPaidSet();
+//            Set<Owe> oweSet = expense.getOweSet();
+//
+//            HashMap<String, Double> paidHashMap = new HashMap<>();
+//            HashMap<String, Double> oweHashMap = new HashMap<>();
+//
+//            for(Paid paid: paidSet) {
+//                paidHashMap.put(paid.getUserID(), paid.getAmount());
+//            }
+//            for(Owe owe: oweSet) {
+//                oweHashMap.put(owe.getUserID(), owe.getAmount());
+//            }
+//
+//            double temp = 0;
+//            for(Map.Entry<String, Paid> paidEntry:  paidHashMap.entrySet()) {
+//
+//            }
+//
+//        }
+//
+//
+//
+//
+//        // giver, receiver list
+//        HashMap<String, Double> giverList = new HashMap<String, Double>();
+//        HashMap<String, Double> receiverList = new HashMap<String, Double>();
+//
+//        // settle up List
+//        ArrayList<SettleUpItem> settleUpItems = new ArrayList<>();
+//
+//
     }
 }

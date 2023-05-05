@@ -17,4 +17,6 @@ public interface ExpenseService {
     APIResponse deleteExpenseWithGroupID(String groupID);
 
     APIResponse getExpenseDetailByExpenseID(String expenseID);
+
+    void settleUpGroup(String groupID);
 }
