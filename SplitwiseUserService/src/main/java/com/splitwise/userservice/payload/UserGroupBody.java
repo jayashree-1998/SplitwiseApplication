@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExitGroupBody {
+public class UserGroupBody {
 
     String groupID;
     String userID;

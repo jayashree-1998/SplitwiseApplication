@@ -3,7 +3,6 @@ package com.splitwise.expenseservice.controller;
 import com.splitwise.expenseservice.entities.Expense;
 import com.splitwise.expenseservice.payload.APIResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
-import com.splitwise.expenseservice.payload.ExpenseDetail;
 import com.splitwise.expenseservice.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/expense")
+@RequestMapping("expense")
 public class ExpenseController {
 
     @Autowired
@@ -26,9 +25,9 @@ public class ExpenseController {
     }
 
     @GetMapping("/get-expense-list-by-group-id/{groupID}")
-    public ResponseEntity<APIResponse> getExpenseListForGroup(@PathVariable String groupID) {
-        APIResponse apiResponse = this.expenseService.getExpenseListWithGroupID(groupID);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    public ResponseEntity<Set<Expense>> getExpenseListForGroup(@PathVariable String groupID) {
+        Set<Expense> expenses = this.expenseService.getExpenseListWithGroupID(groupID);
+        return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
 
     @GetMapping("get-expense-detail/{expenseID}")
@@ -42,6 +41,15 @@ public class ExpenseController {
         APIResponse apiResponse = this.expenseService.deleteExpense(expenseID);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    // NOTE: this API is used by USER-SERVICE when group is being deleted,
+    @DeleteMapping("/delete-expense-of-group/{groupID}")
+    public ResponseEntity<APIResponse> deleteExpenseWithGroupID(@PathVariable String groupID) {
+//        return new ResponseEntity<>(new APIResponse("deleted", true), HttpStatus.OK);
+        APIResponse apiResponse = this.expenseService.deleteExpenseWithGroupID(groupID);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 
     @GetMapping("/settle-up/{groupID}")
     public ResponseEntity<APIResponse> settleUp(@PathVariable String groupID) {
