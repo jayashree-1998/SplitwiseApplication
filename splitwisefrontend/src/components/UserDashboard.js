@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import UserDashboardSidebar from "./UserDashboardSidebar";
 
 function UserDashboard() {
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div
         style={{
-          flex: 8,
+          flex: 7,
           height: "100vh",
           width: "300px",
           backgroundColor: "white",
@@ -23,7 +24,9 @@ function UserDashboard() {
           display: "flex",
           flexDirection: "column",
         }}
-      ></div>
+      >
+        <UserDashboardSidebar />
+      </div>
     </div>
   );
 }

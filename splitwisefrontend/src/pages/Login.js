@@ -29,9 +29,9 @@ function Login() {
     if (data) {
       if (data.success === true && data.object.email === loginData.email) {
         toast.success("Welcome");
-        navigate("/dashboard", {
+        navigate("/mainpage", {
           state: {
-            userObj: data,
+            userObj: data.object,
           },
         });
       } else {

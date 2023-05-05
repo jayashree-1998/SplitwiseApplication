@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
-import UserDashboard from "../components/UserDashboard";
-import { useLocation } from "react-router-dom";
-import UserSidebar from "../components/UserSidebar";
-import { getGroupListForUser } from "../services/userService";
+import React, { useContext, useEffect, useState } from "react";
+import UserDashboard from "./UserDashboard";
+import UserSidebar from "./UserSidebar";
+import { UserObjectContext } from "../context.js/UserObjectContext";
+import { GroupObjectContext } from "../context.js/GroupObjectContext";
 
-function Dashboard() {
-  const locationState = useLocation().state;
+function Dashboard({ userObj }) {
   const [groupSelected, setGroupSelected] = useState(false);
-  const [groupList, setGroupList] = useState([]);
+  const [groupObject, setGroupObject] = useContext(GroupObjectContext);
+  const [userObject, setUserObject] = useContext(UserObjectContext);
 
   useEffect(() => {
-    setGroupList(locationState.userObj.groupList);
+    setUserObject(userObj);
   }, []);
+
+  function onGroupSelect(g) {
+    setGroupObject(g);
+    setGroupSelected((pv) => {
+      return true;
+    });
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -26,10 +33,7 @@ function Dashboard() {
         }}
       >
         {/* Render user sidebar component */}
-        <UserSidebar
-          userGroupList={groupList}
-          userObj={locationState.userObj}
-        />
+        <UserSidebar userObj={userObj} onGroupSelect={onGroupSelect} />
       </div>
 
       <div
