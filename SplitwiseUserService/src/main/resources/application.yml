@@ -9,8 +9,8 @@ spring:
     name: user-service
   datasource:
     url: jdbc:mysql://localhost:3306/userservice?createDatabaseIfNotExist=true
-    username: shashidhar
-    password: shashidhar
+    username: lax98
+    password: Chair$123
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:

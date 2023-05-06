@@ -31,7 +31,7 @@ function Login() {
         toast.success("Welcome");
         navigate("/mainpage", {
           state: {
-            userObj: data.object,
+            loginResponse: data.object,
           },
         });
       } else {
