@@ -2,10 +2,13 @@ import axios from "axios";
 import { IPAddress } from "../utils/constants";
 
 const createGroupAPI = `http://${IPAddress}/group/create-group`;
+
 const getMemberListByGroupIDAPI = (groupID) =>
   `http://${IPAddress}/group/get-all-users-by-group-id/${groupID}`;
 
 const addMemberToGroupAPI = `http://${IPAddress}/group/add-user-to-group`;
+
+const deleteGroupAPI = `http://${IPAddress}/group/delete-group`;
 
 async function createGroup(groupData) {
   const createGroupObject = {
@@ -35,4 +38,15 @@ async function addMemberToGroup(email_id, group_id) {
   return responseData;
 }
 
-export { createGroup, getMemberListByGroupID, addMemberToGroup };
+async function deleteGroup(group_ID, user_ID) {
+  const deleteGroupBody = {
+    groupID: group_ID,
+    userID: user_ID,
+  };
+  const responseData = await axios.delete(deleteGroupAPI, {
+    data: deleteGroupBody,
+  });
+  return responseData;
+}
+
+export { createGroup, getMemberListByGroupID, addMemberToGroup, deleteGroup };

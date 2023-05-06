@@ -1,18 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   addMemberToGroup,
+  deleteGroup,
   getMemberListByGroupID,
 } from "../services/groupService";
 import { toast } from "react-toastify";
 import AddMemberToGroupModal from "./AddMemberToGroupModal";
+import { GroupUserListContext } from "../context.js/GroupUserListContext";
 import { GroupObjectContext } from "../context.js/GroupObjectContext";
 import { UserObjectContext } from "../context.js/UserObjectContext";
 
 function UserDashboardSidebar() {
   const [addMemberClicked, setAddMemberClicked] = useState(false);
   const [memberList, setMemberList] = useState([]);
+  const [groupUserList, setGroupUserList] = useContext(GroupUserListContext);
   const [groupObject] = useContext(GroupObjectContext);
   const [userObject, setUserObject] = useContext(UserObjectContext);
+  let oldGroupList = userObject.groupList;
+
   const [email, setEmail] = useState("");
   const [refresh, setRefresh] = useState(false);
 
@@ -31,11 +36,12 @@ function UserDashboardSidebar() {
       const memberListData = responseData.data;
       if (memberListData) {
         setMemberList(memberListData.object.sort(sortComparator("name")));
+        setGroupUserList(memberListData.object.sort(sortComparator("name")));
       } else {
         toast.error(memberListData.object);
       }
     })();
-  }, [groupObject.groupID, refresh]);
+  }, [groupObject.groupID, refresh, setGroupUserList]);
 
   function openModal() {
     setAddMemberClicked(true);
@@ -50,7 +56,33 @@ function UserDashboardSidebar() {
     setEmail(value);
   }
 
-  async function deleteGroup() {}
+  async function deleteGroupByOwner() {
+    const value = window.confirm(
+      "Deleting group will also delete all the expenses"
+    );
+    if (value) {
+      const responseData = await deleteGroup(
+        groupObject.groupID,
+        groupObject.ownerID
+      );
+      const data = responseData.data;
+      if (data) {
+        if (data.success === true) {
+          //TODO: set deleted to true, use it to rerender userSidebar component
+          oldGroupList = oldGroupList.filter((e, i) => {
+            return groupObject.groupID !== e.groupID;
+          });
+          setUserObject((pv) => {
+            return {
+              ...pv,
+              groupList: oldGroupList,
+            };
+          });
+          toast.success(data.object);
+        }
+      }
+    }
+  }
 
   async function addMember() {
     if (email !== "") {
@@ -136,7 +168,7 @@ function UserDashboardSidebar() {
                 flex: 1,
               }}
               className="button3"
-              onClick={deleteGroup}
+              onClick={deleteGroupByOwner}
             >
               Delete Group
             </button>
