@@ -151,4 +151,21 @@ public class GroupServiceImpl implements GroupService {
 
         return new APIResponse(groupDetail,true);
     }
+
+    @Override
+    public APIResponse settleGroup(String groupID) {
+        APIResponse apiResponse = new APIResponse();
+        Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id"));
+        try {
+            group.setSettled(true);
+            this.groupRepository.save(group);
+            apiResponse.setSuccess(true);
+            apiResponse.setObject("Settled!");
+            return apiResponse;
+        } catch (Exception e) {
+            apiResponse.setObject("Not able to settle group");
+            apiResponse.setSuccess(false);
+            return apiResponse;
+        }
+    }
 }

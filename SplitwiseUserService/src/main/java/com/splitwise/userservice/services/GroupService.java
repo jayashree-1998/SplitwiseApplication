@@ -20,4 +20,6 @@ public interface GroupService {
     Set<User> getAllUsersByGroupID(String groupID);
 
     APIResponse getGroupDetail(String groupID);
+
+    APIResponse settleGroup(String groupID);
 }

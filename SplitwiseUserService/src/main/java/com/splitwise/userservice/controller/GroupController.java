@@ -53,4 +53,10 @@ public class GroupController {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
+    @PostMapping("/make-group-settle/{groupID}")
+    public ResponseEntity<APIResponse> settleGroup(@PathVariable String groupID) {
+        APIResponse apiResponse = this.groupService.settleGroup(groupID);
+        return  new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 }

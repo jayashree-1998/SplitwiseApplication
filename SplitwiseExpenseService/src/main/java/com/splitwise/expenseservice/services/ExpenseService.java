@@ -18,5 +18,5 @@ public interface ExpenseService {
 
     APIResponse getExpenseDetailByExpenseID(String expenseID);
 
-    void settleUpGroup(String groupID);
+    APIResponse settleUpGroup(String groupID);
 }
