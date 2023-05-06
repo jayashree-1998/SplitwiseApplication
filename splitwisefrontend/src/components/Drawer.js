@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import CreateGroupModal from "./CreateGroupModal";
-import { createGroup } from "../services/groupService";
+import { createGroup, getGroupDetail } from "../services/groupService";
 import { toast } from "react-toastify";
 import { getGroupListForUserByID } from "../services/userService";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ const Drawer = ({ onGroupSelect }) => {
     ownerID: "",
   });
   const [userObject] = useContext(UserContext);
-  const [selectedGroup] = useContext(GroupDetailContext);
+  const [selectedGroup, setGroupObject] = useContext(GroupDetailContext);
   const [groupList, setGroupList] = useState([]);
 
   const sortComparator = (prop) => (a, b) => {
@@ -152,7 +152,6 @@ const Drawer = ({ onGroupSelect }) => {
                   }}
                   className="button3"
                   onClick={() => {
-                    console.log(e.groupID);
                     onGroupSelect(e.groupID.toString());
                   }}
                 >

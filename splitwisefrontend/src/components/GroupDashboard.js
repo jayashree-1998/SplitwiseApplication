@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import UserListComponent from "./UserListComponent";
-import ExpenseComponent from "./ExpenseComponent";
+import { getGroupDetail } from "../services/groupService";
+import { GroupDetailContext } from "../contexts/GroupDetailContext";
 
 function GroupDashboard() {
   return (
@@ -28,7 +29,7 @@ function GroupDashboard() {
           flexDirection: "column",
         }}
       >
-        {/* <UserListComponent /> */}
+        <UserListComponent />
       </div>
     </div>
   );

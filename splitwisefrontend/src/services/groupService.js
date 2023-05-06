@@ -6,6 +6,9 @@ const createGroupAPI = `http://${IPAddress}/group/create-group`;
 const getMemberListByGroupIDAPI = (groupID) =>
   `http://${IPAddress}/group/get-all-users-by-group-id/${groupID}`;
 
+const getGroupDetailAPI = (groupID) =>
+  `http://${IPAddress}/group/get-group-detail/${groupID}`;
+
 const addMemberToGroupAPI = `http://${IPAddress}/group/add-user-to-group`;
 
 const deleteGroupAPI = `http://${IPAddress}/group/delete-group`;
@@ -20,7 +23,7 @@ async function createGroup(groupData) {
   return responseData;
 }
 
-async function getMemberListByGroupID(groupID) {
+async function getUserListByGroupID(groupID) {
   const responseData = await axios.get(getMemberListByGroupIDAPI(groupID));
   return responseData;
 }
@@ -49,4 +52,15 @@ async function deleteGroup(group_ID, user_ID) {
   return responseData;
 }
 
-export { createGroup, getMemberListByGroupID, addMemberToGroup, deleteGroup };
+async function getGroupDetail(groupID) {
+  const responseData = await axios.get(getGroupDetailAPI(groupID));
+  return responseData;
+}
+
+export {
+  createGroup,
+  getUserListByGroupID,
+  addMemberToGroup,
+  deleteGroup,
+  getGroupDetail,
+};
