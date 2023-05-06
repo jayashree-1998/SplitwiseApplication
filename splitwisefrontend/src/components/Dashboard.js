@@ -6,15 +6,21 @@ import { GroupObjectContext } from "../context.js/GroupObjectContext";
 
 function Dashboard({ userObj }) {
   const [groupSelected, setGroupSelected] = useState(false);
-  const [groupObject, setGroupObject] = useContext(GroupObjectContext);
+  const [__, setGroupObject] = useContext(GroupObjectContext);
   const [userObject, setUserObject] = useContext(UserObjectContext);
-
   useEffect(() => {
     setUserObject(userObj);
   }, []);
 
+  useEffect(() => {
+    if (groupSelected) {
+      setGroupSelected(false);
+    }
+  }, [userObject]);
+
   function onGroupSelect(g) {
     setGroupObject(g);
+
     setGroupSelected((pv) => {
       return true;
     });
@@ -47,7 +53,11 @@ function Dashboard({ userObj }) {
         }}
       >
         {/* based on the condition, i.e group selected or not, render the component. */}
-        {groupSelected && <UserDashboard />}
+        {groupSelected ? (
+          <UserDashboard />
+        ) : (
+          <div>Please select/create a group</div>
+        )}
       </div>
     </div>
   );

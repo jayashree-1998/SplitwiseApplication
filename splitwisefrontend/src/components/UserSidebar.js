@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { getGroupListForUserByID } from "../services/userService";
 import { useNavigate } from "react-router-dom";
 import { UserObjectContext } from "../context.js/UserObjectContext";
+
 const UserSidebar = ({ userObj, onGroupSelect }) => {
   const navigate = useNavigate();
   const [addGroupClicked, setAddGroupClicked] = useState(false);
@@ -29,6 +30,7 @@ const UserSidebar = ({ userObj, onGroupSelect }) => {
       if (userObject.user_id === null) return;
       const responseData = await getGroupListForUserByID(userObj.user_id);
       const groupListData = responseData.data;
+      console.log(groupListData);
       if (groupListData) {
         setGroupList(groupListData.object.sort(sortComparator("name")));
       } else {
@@ -42,11 +44,18 @@ const UserSidebar = ({ userObj, onGroupSelect }) => {
   }
 
   function closeModal() {
+    setCreateGroupObj({
+      groupName: "",
+      ownerID: "",
+    });
     setAddGroupClicked(false);
   }
 
   function logout() {
-    navigate("/login");
+    const value = window.confirm("Are you sure");
+    if (value) {
+      navigate("/login");
+    }
   }
 
   function handleChangeInCreateGroup(event) {

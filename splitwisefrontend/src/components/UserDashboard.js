@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UserDashboardSidebar from "./UserDashboardSidebar";
+import Expense from "./Expense";
 
 function UserDashboard() {
   return (
@@ -11,9 +12,11 @@ function UserDashboard() {
           width: "300px",
           backgroundColor: "white",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
         }}
-      ></div>
+      >
+        <Expense />
+      </div>
 
       <div
         style={{
