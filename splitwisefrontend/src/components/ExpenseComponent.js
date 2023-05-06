@@ -1,11 +1,8 @@
 import React, { useContext, useState } from "react";
-import { GroupObjectContext } from "../context.js/GroupObjectContext";
-import { UserObjectContext } from "../context.js/UserObjectContext";
+
 import AddExpenseModal from "./AddExpenseModal";
 
-function Expense() {
-  const [groupObject] = useContext(GroupObjectContext);
-  const [userObject] = useContext(UserObjectContext);
+function ExpenseComponent() {
   const [addExpenseClicked, setAddExpenseClicked] = useState(false);
   const [expenseDetails, setExpenseDetails] = useState({
     groupID: groupObject.groupID,
@@ -100,4 +97,4 @@ function Expense() {
     </div>
   );
 }
-export default Expense;
+export default ExpenseComponent;

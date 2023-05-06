@@ -8,11 +8,11 @@ import { toast } from "react-toastify";
 import AddMemberToGroupModal from "./AddMemberToGroupModal";
 import { GroupUserListContext } from "../context.js/GroupUserListContext";
 import { GroupObjectContext } from "../context.js/GroupObjectContext";
-import { UserObjectContext } from "../context.js/UserObjectContext";
+import { UserObjectContext } from "../context.js/UserLoginResponseContext";
 
 function UserDashboardSidebar() {
   const [addMemberClicked, setAddMemberClicked] = useState(false);
-  const [memberList, setMemberList] = useState([]);
+  // const [memberList, setMemberList] = useState([]);
   const [groupUserList, setGroupUserList] = useContext(GroupUserListContext);
   const [groupObject] = useContext(GroupObjectContext);
   const [userObject, setUserObject] = useContext(UserObjectContext);
@@ -35,7 +35,7 @@ function UserDashboardSidebar() {
       const responseData = await getMemberListByGroupID(groupObject.groupID);
       const memberListData = responseData.data;
       if (memberListData) {
-        setMemberList(memberListData.object.sort(sortComparator("name")));
+        // setMemberList(memberListData.object.sort(sortComparator("name")));
         setGroupUserList(memberListData.object.sort(sortComparator("name")));
       } else {
         toast.error(memberListData.object);
@@ -92,7 +92,7 @@ function UserDashboardSidebar() {
       if (data) {
         if (data.success === true) {
           //get User List and set it
-          setMemberList((pv) => {
+          setGroupUserList((pv) => {
             return [...pv, data.object];
           });
           closeModal();
@@ -134,8 +134,8 @@ function UserDashboardSidebar() {
           />
         )}
         <div style={{ flex: 1, flexDirection: "column", overflow: "auto" }}>
-          {memberList.length !== 0 &&
-            memberList.map((u, i) => {
+          {groupUserList.length !== 0 &&
+            groupUserList.map((u, i) => {
               return (
                 <div
                   key={i}
