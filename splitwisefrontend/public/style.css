@@ -184,13 +184,13 @@ form .button input:hover {
   padding: 12px 8px;
 }
 
-.button3:hover {
+/* .button3:hover {
   border-radius: 8px;
   background: white;
   color: #518495;
   align-self: stretch;
   text-align: start;
-}
+} */
 
 .sidebar {
   font-size: 18px;
