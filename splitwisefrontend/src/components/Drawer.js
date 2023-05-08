@@ -106,7 +106,7 @@ const Drawer = ({ onGroupSelect }) => {
         flex: 1,
         height: "100vh",
         width: "300px",
-        backgroundColor: "#518495",
+        backgroundColor: "#959595",
         display: "flex",
         flexDirection: "column",
       }}
@@ -148,7 +148,7 @@ const Drawer = ({ onGroupSelect }) => {
                     flex: 1,
                     color:
                       selectedGroup && selectedGroup === e.groupID
-                        ? "green"
+                        ? "black"
                         : "white",
                   }}
                   className="button3"

@@ -54,15 +54,37 @@ function ExpenseList() {
         groupObject.expenseList.map((e, i) => {
           return (
             <div key={e.expenseID}>
-              <Accordion>
+              <Accordion
+                style={{
+                  margin: "4px 8px",
+                  backgroundColor: "#7b7b7b",
+                }}
+              >
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon style={{ cursor: "pointer" }} />}
-                  sx={{ cursor: "unset !important" }}
+                  expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1d-content"
                 >
-                  <Typography>{e.expenseName}</Typography>
+                  <Typography
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      flex: 1,
+                    }}
+                  >
+                    <Typography>
+                      <label>{e.expenseName}</label>
+                    </Typography>
+                    <Typography>
+                      <label>₹{e.amount}</label>
+                    </Typography>
+                  </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails
+                  style={{
+                    backgroundColor: "#c2c2c2",
+                  }}
+                >
                   <Typography> {e.amount}</Typography>
                 </AccordionDetails>
               </Accordion>

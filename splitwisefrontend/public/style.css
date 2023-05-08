@@ -27,7 +27,8 @@
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, #518495, #518495);
+  /* background: linear-gradient(135deg, #518495, #518495); */
+  background: #959595;
 }
 
 .container {
@@ -51,7 +52,8 @@
   height: 3px;
   width: 30px;
   border-radius: 5px;
-  background: linear-gradient(135deg, #518495, #518495);
+  /* background: linear-gradient(135deg, #518495, #518495); */
+  background: #959595;
 }
 .content form .user-details {
   display: flex;
@@ -209,6 +211,7 @@ form .button input:hover {
   height: 100%;
   overflow: hidden;
   background: rgba(234, 229, 229, 0.6);
+  z-index: 1;
 }
 
 .modal-container {
@@ -234,6 +237,7 @@ form .button input:hover {
   height: 100%;
   border-radius: 8px;
   background: rgba(234, 229, 229, 0.6);
+  z-index: inherit;
 }
 
 .modal-container-child {
