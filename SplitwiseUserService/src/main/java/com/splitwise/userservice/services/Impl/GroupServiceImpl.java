@@ -147,6 +147,7 @@ public class GroupServiceImpl implements GroupService {
         // get expense list of group from expense service
 
         Set<Expense> expenses = expenseService.getExpenses(group.getGroupID());
+
         groupDetail.setExpenseList(expenses);
 
         return new APIResponse(groupDetail,true);

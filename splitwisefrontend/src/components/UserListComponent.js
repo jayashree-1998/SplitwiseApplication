@@ -11,22 +11,22 @@ import { UserContext } from "../contexts/UserContext";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
 
 function UserListComponent() {
-  const [addMemberClicked, setAddMemberClicked] = useState(false);
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [selectedGroup, setSelectedGroup, groupObject, setGroupObject] =
     useContext(GroupDetailContext);
   const [userObject, setUserObject] = useContext(UserContext);
 
   const [userList, setUserList] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      const responseData = await getGroupDetail(selectedGroup);
-      if (responseData.data.success === true) {
-        // set selected group id in context
-        setGroupObject(responseData.data.object);
-      }
-    })();
-  }, [selectedGroup, setGroupObject]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const responseData = await getGroupDetail(selectedGroup);
+  //     if (responseData.data.success === true) {
+  //       // set selected group id in context
+  //       setGroupObject(responseData.data.object);
+  //     }
+  //   })();
+  // }, [selectedGroup, setGroupObject]);
 
   let oldGroupList = userObject.groupList;
 
@@ -59,11 +59,11 @@ function UserListComponent() {
   }, [groupObject, refresh]);
 
   function openModal() {
-    setAddMemberClicked(true);
+    setShowAddUserModal(true);
   }
 
   function closeModal() {
-    setAddMemberClicked(false);
+    setShowAddUserModal(false);
   }
 
   function handleChangeInAddMember(event) {
@@ -88,6 +88,7 @@ function UserListComponent() {
           oldGroupList = oldGroupList.filter((e, i) => {
             return groupObject.group.groupID !== e.groupID;
           });
+          setGroupObject(null);
           setUserObject((pv) => {
             return {
               ...pv,
@@ -122,7 +123,19 @@ function UserListComponent() {
             return !pv;
           });
         } else {
-          toast.error(data.object);
+          toast.error("Group not found!");
+          oldGroupList = oldGroupList.filter((e, i) => {
+            return groupObject.group.groupID !== e.groupID;
+          });
+          setUserObject((pv) => {
+            return {
+              ...pv,
+              groupList: oldGroupList,
+            };
+          });
+          setSelectedGroup(null);
+          setGroupObject(null);
+          closeModal();
         }
       } else {
         console.log("No data returned");
@@ -144,9 +157,9 @@ function UserListComponent() {
         }}
       >
         <button className="button3" onClick={() => openModal()}>
-          Add Memebers
+          Add Members
         </button>
-        {addMemberClicked && (
+        {showAddUserModal && (
           <AddMemberToGroupModal
             closeModal={closeModal}
             modalHeading={"Add Members"}

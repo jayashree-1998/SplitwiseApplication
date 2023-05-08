@@ -17,6 +17,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class ExpenseDetail {
     private String expenseID;
+
+    private String expenseName;
     private String groupID;
     private double amount;
     private Date date;

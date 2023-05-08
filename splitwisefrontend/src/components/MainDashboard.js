@@ -1,43 +1,44 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Drawer from "./Drawer";
 import GroupDashboard from "./GroupDashboard";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
-import { getGroupDetail } from "../services/groupService";
 
 function MainDashboard() {
-  const [selectedGroup, setSelectedGroup] = useContext(GroupDetailContext);
+  const [selectedGroup, setSelectedGroup, groupObject, setGroupObject] =
+    useContext(GroupDetailContext);
 
   function onGroupSelect(groupID) {
     setSelectedGroup(groupID);
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        flexDirection: "row",
+        // alignItems: "stretch",
+      }}
+    >
       <div
         style={{
-          flex: 2,
-          height: "100vh",
-          width: "300px",
+          flex: 1,
           backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        {/* Render user sidebar component */}
         <Drawer onGroupSelect={onGroupSelect} />
       </div>
 
       <div
         style={{
-          flex: 8,
-          height: "100vh",
-          width: "300px",
+          flex: 5,
           backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        {/* based on the condition, i.e group selected or not, render the component. */}
         {selectedGroup ? (
           <GroupDashboard />
         ) : (

@@ -15,7 +15,8 @@ const Drawer = ({ onGroupSelect }) => {
     ownerID: "",
   });
   const [userObject] = useContext(UserContext);
-  const [selectedGroup, setGroupObject] = useContext(GroupDetailContext);
+  const [selectedGroup, setSelectedGroup, groupObject, setGroupObject] =
+    useContext(GroupDetailContext);
   const [groupList, setGroupList] = useState([]);
 
   const sortComparator = (prop) => (a, b) => {
@@ -102,7 +103,7 @@ const Drawer = ({ onGroupSelect }) => {
   return (
     <div
       style={{
-        flex: 2,
+        flex: 1,
         height: "100vh",
         width: "300px",
         backgroundColor: "#518495",
