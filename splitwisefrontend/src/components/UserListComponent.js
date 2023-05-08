@@ -88,6 +88,9 @@ function UserListComponent() {
           oldGroupList = oldGroupList.filter((e, i) => {
             return groupObject.group.groupID !== e.groupID;
           });
+
+          setGroupObject(null);
+
           setUserObject((pv) => {
             return {
               ...pv,
