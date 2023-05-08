@@ -1,3 +1,31 @@
+#server:
+#  port: 9084
+#
+#spring:
+#  application:
+#    name: apigateway
+#
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: user-service
+#          uri: lb://USER-SERVICE
+#          predicates:
+#            - Path=/user/**, /group/**
+#        - id: expense-service
+#          uri: lb://EXPENSE-SERVICE
+#          predicates:
+#            - Path=/expense/**
+#
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:9083/eureka
+
 server:
   port: 9084
 
@@ -24,4 +52,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:9083/eureka
+      defaultZone: http://eurekaregistry:9083/eureka
