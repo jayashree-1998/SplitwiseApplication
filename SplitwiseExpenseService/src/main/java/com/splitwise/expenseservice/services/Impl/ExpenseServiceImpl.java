@@ -76,13 +76,22 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public Set<Expense> getExpenseListWithGroupID(String groupID) {
-        HashSet<Expense> expenses = new HashSet<>();
+    public Set<ExpenseDetail> getExpenseListWithGroupID(String groupID) {
         Set<Expense> expenseSet = this.expenseRepository.findExpenseByGroupID(groupID);
-        if(expenseSet != null) {
-            expenses = (HashSet<Expense>) expenseSet;
+        Set<ExpenseDetail> expenseDetailSet = new HashSet<>();
+        for(Expense expense: expenseSet) {
+            ExpenseDetail expenseDetail = new ExpenseDetail();
+            expenseDetail.setExpenseID(expense.getExpenseID());
+            expenseDetail.setExpenseName(expense.getExpenseName());
+            expenseDetail.setDate(expense.getDate());
+            expenseDetail.setAmount(expense.getAmount());
+            expenseDetail.setAddedBy(expense.getAddedBy());
+            expenseDetail.setGroupID(expense.getGroupID());
+            expenseDetail.setPaidSet(expense.getPaidSet());
+            expenseDetail.setOweSet(expense.getOweSet());
+            expenseDetailSet.add(expenseDetail);
         }
-        return expenses;
+        return expenseDetailSet;
     }
 
     @Override

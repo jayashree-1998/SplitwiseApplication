@@ -3,6 +3,7 @@ package com.splitwise.expenseservice.controller;
 import com.splitwise.expenseservice.entities.Expense;
 import com.splitwise.expenseservice.payload.APIResponse;
 import com.splitwise.expenseservice.payload.ExpenseBody;
+import com.splitwise.expenseservice.payload.ExpenseDetail;
 import com.splitwise.expenseservice.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,8 @@ public class ExpenseController {
     }
 
     @GetMapping("/get-expense-list-by-group-id/{groupID}")
-    public ResponseEntity<Set<Expense>> getExpenseListForGroup(@PathVariable String groupID) {
-        Set<Expense> expenses = this.expenseService.getExpenseListWithGroupID(groupID);
+    public ResponseEntity<Set<ExpenseDetail>> getExpenseListForGroup(@PathVariable String groupID) {
+        Set<ExpenseDetail> expenses = this.expenseService.getExpenseListWithGroupID(groupID);
         return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
 

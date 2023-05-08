@@ -1,27 +1,40 @@
 import React, { useContext, useEffect } from "react";
 import UserListComponent from "./UserListComponent";
-import { getGroupDetail } from "../services/groupService";
+
+import ExpenseComponent from "./ExpenseComponent";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
+import { getGroupDetail } from "../services/groupService";
 
 function GroupDashboard() {
+  const [selectedGroup, setSelectedGroup, groupObject, setGroupObject] =
+    useContext(GroupDetailContext);
+
+  useEffect(() => {
+    (async () => {
+      const responseData = await getGroupDetail(selectedGroup);
+      if (responseData.data.success === true) {
+        // set selected group id in context
+        setGroupObject(responseData.data.object);
+      }
+    })();
+  }, [selectedGroup, setGroupObject]);
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <div
         style={{
-          flex: 7,
-          height: "100vh",
-          width: "300px",
+          flex: 5,
           backgroundColor: "white",
           display: "flex",
           flexDirection: "row",
         }}
       >
-        {/* <ExpenseComponent /> */}
+        {groupObject && <ExpenseComponent />}
       </div>
 
       <div
         style={{
-          flex: 3,
+          flex: 2,
           height: "100vh",
           width: "300px",
           backgroundColor: "#518495",
@@ -29,7 +42,7 @@ function GroupDashboard() {
           flexDirection: "column",
         }}
       >
-        <UserListComponent />
+        {groupObject && <UserListComponent />}
       </div>
     </div>
   );

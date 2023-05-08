@@ -10,7 +10,7 @@ import java.util.Set;
 public interface ExpenseService {
     APIResponse addExpense(ExpenseBody expenseBody);
 
-    Set<Expense> getExpenseListWithGroupID(String groupID);
+    Set<ExpenseDetail> getExpenseListWithGroupID(String groupID);
 
     APIResponse deleteExpense(String expenseID);
 

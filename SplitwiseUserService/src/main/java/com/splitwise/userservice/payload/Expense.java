@@ -8,11 +8,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Expense {
     private String expenseID;
     private String expenseName;
@@ -20,5 +23,8 @@ public class Expense {
     private double amount;
     private Date date;
     private String addedBy;
+
+    private Set<Paid> paidSet = new HashSet<>();
+    private Set<Owe> oweSet = new HashSet<>();
 
 }
