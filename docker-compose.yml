@@ -1,0 +1,102 @@
+version: '3'
+
+services:
+  eurekaregistry:
+    image: lax98/splitwise:eurekaregistry
+    container_name: eurekaregistry
+    ports:
+      - "9083:9083"
+    networks:
+      - splitwise
+
+  apigateway:
+    image: lax98/splitwise:apigateway
+    container_name: apigateway
+    ports:
+      - "9084:9084"
+    networks:
+      - splitwise
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:9083/eureka/
+    depends_on:
+      - eurekaregistry
+
+  userservice:
+    image: lax98/splitwise:userservice
+    container_name: userservice
+    ports:
+      - "9081:9081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:9083/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://userservice_db/userservice?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - splitwise
+    depends_on:
+      - eurekaregistry
+      - apigateway
+      - userservice_db
+
+  expenseservice:
+    image: lax98/splitwise:expenseservice
+    container_name: expenseservice
+    ports:
+      - "9082:9082"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:9083/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://expenseservice_db/expenseservice?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - splitwise
+    depends_on:
+      - eurekaregistry
+      - apigateway
+      - expenseservice_db
+
+  userservice_db:
+    image: mysql:8
+    container_name: userservice_db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=userservice
+    volumes:
+      - userservice_db:/var/lib/mysql
+    networks:
+      - splitwise
+
+  expenseservice_db:
+    image: mysql:8
+    container_name: expenseservice_db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=expenseservice
+    volumes:
+      - expenseservice_db:/var/lib/mysql
+    networks:
+      - splitwise
+
+  splitwisefrontend:
+    image: lax98/splitwise:splitwisefrontend
+    container_name: splitwisefrontend
+    ports:
+      - "3000:3000"
+    networks:
+      - splitwise
+
+networks:
+  splitwise:
+    driver: bridge
+
+volumes:
+  expenseservice_db:
+  userservice_db:
+
+
+
+
