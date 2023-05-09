@@ -1,56 +1,51 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-
-// const Accordion = styled((props) => (
-//   <MuiAccordion disableGutters elevation={0} square {...props} />
-// ))(({ theme }) => ({
-//   border: `1px solid ${theme.palette.divider}`,
-//   "&:not(:last-child)": {
-//     borderBottom: 0,
-//   },
-//   "&:before": {
-//     display: "none",
-//   },
-// }));
-
-// const AccordionSummary = styled((props) => (
-//   <MuiAccordionSummary
-//     expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
-//     {...props}
-//   />
-// ))(({ theme }) => ({
-//   backgroundColor:
-//     theme.palette.mode === "dark"
-//       ? "rgba(255, 255, 255, .05)"
-//       : "rgba(0, 0, 0, .03)",
-//   flexDirection: "row-reverse",
-//   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-//     transform: "rotate(90deg)",
-//   },
-//   "& .MuiAccordionSummary-content": {
-//     marginLeft: theme.spacing(1),
-//   },
-// }));
-
-// const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-//   padding: theme.spacing(2),
-//   borderTop: "1px solid rgba(0, 0, 0, .125)",
-// }));
+import { timePattern } from "../utils/constants";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteExpense } from "../services/expenseService";
+import { toast } from "react-toastify";
 
 function ExpenseList() {
   const [selectedGroup, setSelectedGroup, groupObject, setGroupObject] =
     React.useContext(GroupDetailContext);
 
+  const [userNameIDMap, setUserNameIDMap] = useState(null);
+
+  useEffect(() => {
+    let userIDMap = {};
+    groupObject.userList.forEach((e, i) => {
+      userIDMap[e.userID] = e.name;
+    });
+    setUserNameIDMap(userIDMap);
+  }, [groupObject.userList]);
+
+  const removeExpense = async (expenseID) => {
+    console.log(expenseID);
+    const responseData = await deleteExpense(expenseID);
+    if (responseData.data.success === true) {
+      // remove the expense from groupObject and update the groupObject
+      let expenseList = groupObject.expenseList;
+      expenseList = expenseList.filter((e, i) => {
+        return e.expenseID !== expenseID;
+      });
+      setGroupObject((pv) => {
+        return {
+          ...pv,
+          expenseList: expenseList,
+        };
+      });
+      toast.success(responseData.data.object);
+    } else {
+      toast.error(responseData.data.object);
+    }
+  };
+
   return (
     <div>
-      {groupObject.expenseList &&
+      {userNameIDMap &&
+        groupObject.expenseList &&
         groupObject.expenseList.map((e, i) => {
           return (
             <div key={e.expenseID}>
@@ -60,32 +55,96 @@ function ExpenseList() {
                   backgroundColor: "#7b7b7b",
                 }}
               >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1d-content"
-                >
-                  <Typography
+                <AccordionSummary aria-controls="panel1d-content">
+                  <div
                     style={{
+                      margin: "0px 8px",
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
                       flex: 1,
                     }}
                   >
-                    <Typography>
-                      <label>{e.expenseName}</label>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Typography style={{ marginRight: "8px" }}>
+                        <label>{e.expenseName}</label>
+                      </Typography>
+                      <Typography>
+                        <label>₹{e.amount}</label>
+                      </Typography>
+                    </div>
+                    <Typography
+                      style={{
+                        display: "flex",
+                        flex: 1,
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      {userNameIDMap[e.addedBy] !== undefined && (
+                        <label>
+                          Added by {userNameIDMap[e.addedBy].substring(0, 10)}{" "}
+                          on {timePattern(e.date)}
+                        </label>
+                      )}
+                      {groupObject.group.settled === false && (
+                        <DeleteIcon
+                          htmlColor="#3d3d3d"
+                          style={{
+                            marginLeft: "16px",
+                            alignSelf: "center",
+                          }}
+                          onClick={(c) => {
+                            c.stopPropagation();
+                            if (window.confirm("Delete Expense ? ")) {
+                              removeExpense(e.expenseID);
+                            }
+                          }}
+                        />
+                      )}
                     </Typography>
-                    <Typography>
-                      <label>₹{e.amount}</label>
-                    </Typography>
-                  </Typography>
+                  </div>
                 </AccordionSummary>
                 <AccordionDetails
                   style={{
                     backgroundColor: "#c2c2c2",
                   }}
                 >
-                  <Typography> {e.amount}</Typography>
+                  <div
+                    style={{
+                      margin: "8px 0px",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    {e.paidSet.map((p, i) => {
+                      return (
+                        <Typography key={p.paidID}>
+                          {userNameIDMap[p.userID]} paid ₹{p.amount}
+                        </Typography>
+                      );
+                    })}
+                  </div>
+                  <div
+                    style={{
+                      margin: "8px 0px",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    {e.oweSet.map((o, i) => {
+                      return (
+                        <Typography key={o.oweID}>
+                          {userNameIDMap[o.userID]} owes ₹{o.amount}
+                        </Typography>
+                      );
+                    })}
+                  </div>
                 </AccordionDetails>
               </Accordion>
             </div>

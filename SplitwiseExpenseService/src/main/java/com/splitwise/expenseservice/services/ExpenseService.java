@@ -19,4 +19,6 @@ public interface ExpenseService {
     APIResponse getExpenseDetailByExpenseID(String expenseID);
 
     APIResponse settleUpGroup(String groupID);
+
+    APIResponse showTransactionForGroup(String groupID);
 }

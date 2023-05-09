@@ -102,7 +102,7 @@ function Login() {
                 <button
                   className="button2"
                   style={{
-                    color: "#518495",
+                    color: "#636363",
                     fontWeight: "400",
                     fontSize: "14px",
                   }}
