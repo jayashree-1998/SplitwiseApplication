@@ -58,5 +58,11 @@ public class ExpenseController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/show-transaction/{groupID}")
+    public ResponseEntity<APIResponse> showTransaction(@PathVariable String groupID) {
+        APIResponse apiResponse = this.expenseService.showTransactionForGroup(groupID);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 
 }

@@ -69,7 +69,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 owe.setExpense(savedExpense);
                 this.oweRepository.save(owe);
             }
-            return new APIResponse("Expense added successfully", true);
+            return new APIResponse(savedExpense.getExpenseID(), true);
         } catch (Exception e) {
             return new APIResponse("Error in adding expense", false);
         }
@@ -97,7 +97,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public APIResponse deleteExpense(String expenseID) {
         try {
-            this.expenseRepository.deleteById(expenseID);
+            Expense expense = this.expenseRepository.findById(expenseID).orElseThrow(()-> new ResourceNotFound("Expense", "ID"));
+            this.expenseRepository.deleteById(expense.getExpenseID());
             return new APIResponse("Successfully deleted expense!", true);
         } catch (Exception e) {
             return new APIResponse("Error deleting expense!", false);
@@ -280,7 +281,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 this.transactionRepository.save(transaction);
             }
 
-            // make group as settle in user service
+            // make group as settled=true in user service
             APIResponse response =  this.userService.settleGroup(groupID);
             apiResponse.setObject(response.getObject());
             apiResponse.setSuccess(response.getSuccess());
@@ -290,5 +291,19 @@ public class ExpenseServiceImpl implements ExpenseService {
             apiResponse.setObject("Cannot Perform SettleUp!");
             return apiResponse;
         }
+    }
+
+    @Override
+    public APIResponse showTransactionForGroup(String groupID) {
+        APIResponse apiResponse = new APIResponse();
+        try {
+            Set<Transaction> transactionSet = this.transactionRepository.findTransactionByGroupID(groupID);
+            apiResponse.setSuccess(true);
+            apiResponse.setObject(transactionSet);
+        } catch (Exception e) {
+            apiResponse.setSuccess(false);
+            apiResponse.setObject("Could not fetch transactions!");
+        }
+        return apiResponse;
     }
 }

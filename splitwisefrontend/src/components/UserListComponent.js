@@ -151,7 +151,7 @@ function UserListComponent() {
           flex: 3,
           height: "100vh",
           width: "300px",
-          backgroundColor: "#518495",
+          background: "#959595",
           display: "flex",
           flexDirection: "column",
         }}

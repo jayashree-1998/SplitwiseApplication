@@ -61,9 +61,28 @@ const AddExpenseModal = ({ closeModal, modalHeading }) => {
   const addExpense = async (paidSet, owedSet) => {
     expenseObject["paidBySet"] = paidSet;
     expenseObject["owedBySet"] = owedSet;
+    // returns expenseID
     const responseData = await addGroupExpense(expenseObject);
     if (responseData.data.success === true) {
-      toast.success(responseData.data.object);
+      let expenseList = groupObject.expenseList;
+      let newExpenseObject = {
+        expenseID: responseData.data.object,
+        expenseName: expenseObject.expenseName,
+        groupID: groupObject.group.groupID,
+        amount: expenseObject.amount,
+        date: new Date().toISOString(),
+        addedBy: userObject.user_id,
+        paidSet: paidSet,
+        oweSet: owedSet,
+      };
+      expenseList.push(newExpenseObject);
+      setGroupObject((pv) => {
+        return {
+          ...pv,
+          expenseList: expenseList,
+        };
+      });
+      toast.success("Expense Added!");
       closeModal();
     } else {
       toast.error(responseData.data.object);

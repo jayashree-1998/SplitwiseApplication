@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 
@@ -15,4 +17,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
     @Transactional
     @Query(value = "delete from transaction_table t where t.groupid = :groupID", nativeQuery = true)
     void deleteTransactionByGroupID(@Param("groupID") String groupID);
+
+    Set<Transaction> findTransactionByGroupID(String groupID);
 }
