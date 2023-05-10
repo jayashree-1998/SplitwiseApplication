@@ -1,0 +1,10 @@
+- name: Use docker compose to run all containers
+  hosts: all
+  tasks:
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+
+    - name: run docker compose
+      shell: docker-compose up
