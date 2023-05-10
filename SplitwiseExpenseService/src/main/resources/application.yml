@@ -41,8 +41,8 @@ spring:
     name: expense-service
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/expenseservice?createDatabaseIfNotExist=true}
-    username: ${SPRING_DATASOURCE_USERNAME:lax98}
-    password: ${SPRING_DATASOURCE_PASSWORD:Chair$123}
+    username: ${SPRING_DATASOURCE_USERNAME:shashidhar}
+    password: ${SPRING_DATASOURCE_PASSWORD:shashidhar}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
@@ -60,4 +60,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eurekaregistry:9083/eureka}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:9083/eureka}

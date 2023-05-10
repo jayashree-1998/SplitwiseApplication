@@ -37,7 +37,7 @@ function GroupDashboard() {
           flex: 2,
           height: "100vh",
           width: "300px",
-          backgroundColor: "#518495",
+          backgroundColor: "#959595",
           display: "flex",
           flexDirection: "column",
         }}
