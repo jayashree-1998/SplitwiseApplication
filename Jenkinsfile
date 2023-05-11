@@ -1,6 +1,6 @@
 pipeline {
     environment{
-        DOCKERHUB_CREDENTIALS = credentials('dockerhubcredentials')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_username_key')
         DOCKERHUB_USER = 'shashnagaral'
     }
     agent any
