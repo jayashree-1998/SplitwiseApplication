@@ -1,0 +1,2 @@
+[ubuntu_utm]
+client1 ansible_host=192.168.64.2 ansible_connection=ssh ansible_ssh_user=ansible_user ansible_ssh_pass=ansible ansible_ssh_extra_args='-o StrictHostKeyChecking=no'

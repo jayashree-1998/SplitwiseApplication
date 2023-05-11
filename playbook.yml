@@ -10,10 +10,14 @@
       copy:
         src: docker-compose.yml
         dest: ./
+      copy:
+        src: docker_namespace.env
+        dest: ./
 
     - name: Run docker compose up command
       become: true
       docker_compose:
+        env_file: ./
         project_src: ./
         state: present
         pull: yes

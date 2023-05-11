@@ -1,7 +1,7 @@
 pipeline {
     environment{
         DOCKERHUB_CREDENTIALS = credentials('dockerhubcredentials')
-        DOCKERHUB_USER = 'lax98'
+        DOCKERHUB_USER = 'shashnagaral'
     }
     agent any
     stages {
@@ -78,7 +78,7 @@ pipeline {
         stage('Run ansible playbook'){
             steps{
                 echo 'Running the ansible playbook yml file'
-                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory playbook.yml'
+                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_shashi playbook.yml'
             }
         }
     }
