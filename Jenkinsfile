@@ -1,13 +1,13 @@
 pipeline {
     environment{
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub_username_key')
-        DOCKERHUB_USER = 'shashnagaral'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhubcredentials')
+        DOCKERHUB_USER = 'lax98'
     }
     agent any
     stages {
         stage('Clone repository') {
             steps {
-                git branch: 'master', url: 'https://github.com/ShashidharNagaral/SplitwiseApplication'
+                git branch: 'SPLITWISEDEVOPS', url: 'https://github.com/jayashree-1998/SplitwiseApplication'
             }
         }
         stage('Maven Build SplitwiseRegistryService'){
@@ -78,7 +78,7 @@ pipeline {
         stage('Run ansible playbook'){
             steps{
                 echo 'Running the ansible playbook yml file'
-                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_shashi playbook.yml'
+                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_lax playbook.yml'
             }
         }
     }
