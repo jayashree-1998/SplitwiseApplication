@@ -18,7 +18,6 @@ services:
       - splitwise
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:9083/eureka/
-      - REGISTER=true
     depends_on:
       - eurekaregistry
 
@@ -32,7 +31,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://userservice_db/userservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-      - REGISTER=true
     networks:
       - splitwise
     depends_on:
@@ -50,7 +48,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://expenseservice_db/expenseservice?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-      - REGISTER=true
     networks:
       - splitwise
     depends_on:
