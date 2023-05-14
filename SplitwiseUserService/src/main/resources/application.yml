@@ -1,35 +1,3 @@
-#server:
-#  port: 9081
-#
-#spring:
-#  devtools:
-#    livereload:
-#      enabled: false
-#  application:
-#    name: user-service
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/userservice?createDatabaseIfNotExist=true
-#    username: shashidhar
-#    password: shashidhar
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL8Dialect
-#    generate-ddl: true
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#
-#eureka:
-#  instance:
-#    prefer-ip-address: true
-#  client:
-#    fetch-registry: true
-#    register-with-eureka: true
-#    service-url:
-#      defaultZone: http://localhost:9083/eureka
-
 server:
   port: 9081
 
@@ -40,9 +8,9 @@ spring:
   application:
     name: user-service
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/userservice?createDatabaseIfNotExist=true}
-    username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    url: jdbc:mysql://localhost:3306/userservice?createDatabaseIfNotExist=true
+    username: lax98
+    password: Chair$123
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
@@ -57,7 +25,45 @@ eureka:
   instance:
     prefer-ip-address: true
   client:
-    fetch-registry: ${REGISTER:false}
-    register-with-eureka: ${REGISTER:false}
+    fetch-registry: true
+    register-with-eureka: true
     service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:9083/eureka}
+      defaultZone: http://localhost:9083/eureka
+
+logging:
+  level:
+    org:
+      hibernate:
+        boot: OFF
+
+#server:
+#  port: 9081
+#
+#spring:
+#  devtools:
+#    livereload:
+#      enabled: false
+#  application:
+#    name: user-service
+#  datasource:
+#    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/userservice?createDatabaseIfNotExist=true}
+#    username: ${SPRING_DATASOURCE_USERNAME:root}
+#    password: ${SPRING_DATASOURCE_PASSWORD:root}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#    generate-ddl: true
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: ${REGISTER:false}
+#    register-with-eureka: ${REGISTER:false}
+#    service-url:
+#      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:9083/eureka}
