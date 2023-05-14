@@ -1,6 +1,7 @@
 pipeline {
     environment{
         DOCKERHUB_CREDENTIALS = credentials('dockerhub_username_key')
+        MYSQL_CREDENTIALS = credentials('mysql_credentials')
         DOCKERHUB_USER = 'shashnagaral'
     }
     agent any
@@ -27,14 +28,14 @@ pipeline {
         stage('Maven Build SplitwiseUserService'){
             steps{
                 echo 'Building Job'
-                sh 'cd SplitwiseUserService; mvn clean install';
+                sh 'cd SplitwiseUserService; mvn clean install -DSPRING_DATASOURCE_USERNAME=$MYSQL_CREDENTIALS_USR -DSPRING_DATASOURCE_PASSWORD=$MYSQL_CREDENTIALS_PSW';
                 sh 'mv -f SplitwiseUserService/target/SplitwiseUserService-0.0.1-SNAPSHOT.jar JarFiles/';
             }
         }
         stage('Maven Build SplitwiseExpenseService'){
             steps{
                 echo 'Building Job'
-                sh 'cd SplitwiseExpenseService; mvn clean install';
+                sh 'cd SplitwiseExpenseService; mvn clean install -DSPRING_DATASOURCE_USERNAME=$MYSQL_CREDENTIALS_USR -DSPRING_DATASOURCE_PASSWORD=$MYSQL_CREDENTIALS_PSW';
                 sh 'mv -f SplitwiseExpenseService/target/SplitwiseExpenseService-0.0.1-SNAPSHOT.jar JarFiles/';
             }
         }
@@ -67,7 +68,7 @@ pipeline {
         }
         stage('Delete Image from localsystem'){
             steps{
-                echo 'Deleting Docker Image in localsystem'
+                echo 'Deleting Docker Image in docker'
                 sh 'docker rmi $DOCKERHUB_USER/splitwise:eurekaregistry';
                 sh 'docker rmi $DOCKERHUB_USER/splitwise:apigateway';
                 sh 'docker rmi $DOCKERHUB_USER/splitwise:userservice';
