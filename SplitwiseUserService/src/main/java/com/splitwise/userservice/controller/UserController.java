@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/get-all-groups-by-user-id/{userID}")
-    public ResponseEntity<APIResponse> getAllUsersInGroup(@PathVariable String userID) {
+    public ResponseEntity<APIResponse>getAllGroupsByUserID(@PathVariable String userID) {
         Set<Group> groupList = this.userService.getAllGroupsByUserID(userID);
         return new ResponseEntity<>(new APIResponse(groupList,true),HttpStatus.ACCEPTED);
     }

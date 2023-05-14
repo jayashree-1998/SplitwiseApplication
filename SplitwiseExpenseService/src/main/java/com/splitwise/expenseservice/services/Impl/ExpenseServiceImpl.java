@@ -43,7 +43,6 @@ public class ExpenseServiceImpl implements ExpenseService {
     public APIResponse addExpense(ExpenseBody expenseBody) {
         try {
             Date date = new Date();
-            System.out.println(date);
             Expense expense = new Expense();
             expense.setGroupID(expenseBody.getGroupID());
             expense.setAmount(expenseBody.getAmount());
@@ -51,7 +50,6 @@ public class ExpenseServiceImpl implements ExpenseService {
             expense.setExpenseName(expenseBody.getExpenseName());
             expense.setDate(date);
             Expense savedExpense = this.expenseRepository.save(expense);
-
             Set<UserAmount> paidBySet = expenseBody.getPaidBySet();
             for(UserAmount user: paidBySet) {
                 Paid paid = new Paid();
@@ -130,6 +128,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseDetail.setOweSet(expense.getOweSet());
         expenseDetail.setGroupID(expense.getGroupID());
         expenseDetail.setAddedBy(expense.getAddedBy());
+//        expenseDetail.setExpenseName(expense.getExpenseName());
         return new APIResponse(expenseDetail,true);
     }
 

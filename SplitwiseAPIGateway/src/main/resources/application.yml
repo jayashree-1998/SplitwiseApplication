@@ -49,7 +49,7 @@ eureka:
   instance:
     prefer-ip-address: true
   client:
-    fetch-registry: ${REGISTER:false}
-    register-with-eureka: ${REGISTER:false}
+    fetch-registry: ${REGISTER:true}
+    register-with-eureka: ${REGISTER:true}
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:9083/eureka}
