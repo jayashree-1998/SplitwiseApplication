@@ -27,8 +27,8 @@ function TransactionList({ transactionList }) {
         <TableHead>
           <TableRow>
             <TableCell>Payer Name</TableCell>
-            <TableCell>Receiver Name</TableCell>
-            <TableCell>Amount</TableCell>
+            <TableCell>Payee Name</TableCell>
+            <TableCell>Amount (₹)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,7 +40,7 @@ function TransactionList({ transactionList }) {
               >
                 <TableCell>{userNameIDMap[row.payerID]}</TableCell>
                 <TableCell>{userNameIDMap[row.payeeID]}</TableCell>
-                <TableCell>{row.amount}</TableCell>
+                <TableCell>₹ {row.amount}</TableCell>
               </TableRow>
             ))}
         </TableBody>

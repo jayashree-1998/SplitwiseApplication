@@ -1,11 +1,14 @@
 package com.splitwise.userservice.controller;
 
-
 import com.splitwise.userservice.entities.Group;
 import com.splitwise.userservice.entities.User;
 import com.splitwise.userservice.payload.APIResponse;
 import com.splitwise.userservice.payload.LoginResponse;
 import com.splitwise.userservice.services.UserService;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import java.util.Set;
 @RequestMapping("user")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
@@ -36,15 +40,17 @@ public class UserController {
             loginResponse.setEmail(user1.getEmail());
             loginResponse.setMobileNumber(user1.getMobileNumber());
             loginResponse.setGroupList(user1.getGroupList());
+            logger.info("'{}' ${}$ &{}& *{}* #{}# - User successfully logged in",user1.getEmail(),"",user1.getUserID(),"","");
             return new ResponseEntity<>(new APIResponse(loginResponse, true), HttpStatus.ACCEPTED);
         } catch(Exception e) {
             System.out.println("Invalid email or password!");
+            logger.error("'{}' ${}$ &{}& *{}* #{}# - Login failed,Invalid email or password", user.getEmail(),"","","","");
             return new ResponseEntity<>(new APIResponse("Invalid email or password", false), HttpStatus.ACCEPTED);
         }
     }
 
     @GetMapping("/get-all-groups-by-user-id/{userID}")
-    public ResponseEntity<APIResponse> getAllUsersInGroup(@PathVariable String userID) {
+    public ResponseEntity<APIResponse>getAllGroupsByUserID(@PathVariable String userID) {
         Set<Group> groupList = this.userService.getAllGroupsByUserID(userID);
         return new ResponseEntity<>(new APIResponse(groupList,true),HttpStatus.ACCEPTED);
     }
