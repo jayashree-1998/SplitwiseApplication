@@ -2,8 +2,6 @@ pipeline {
     environment{
         DOCKERHUB_CREDENTIALS = credentials('dockerhub_username_key')
         DOCKERHUB_USER = 'shashnagaral'
-	USERNAME = 'root'
-	PASSWORD = 'root'
     }
     agent any
     stages {
@@ -29,9 +27,6 @@ pipeline {
         stage('Maven Build SplitwiseUserService'){
             steps{
                 echo 'Building Job'
-		withEnv(['SPRING_DATASOURCE_USERNAME=${env.USERNAME}', 'SPRING_DATASOURCE_PASSWORD=${env.PASSWORD}']) {
-			
-		}
                 sh 'cd SplitwiseUserService; mvn clean install';
                 sh 'mv -f SplitwiseUserService/target/SplitwiseUserService-0.0.1-SNAPSHOT.jar JarFiles/';
             }
