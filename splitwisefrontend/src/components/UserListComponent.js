@@ -123,7 +123,7 @@ function UserListComponent() {
             return !pv;
           });
         } else {
-          toast.error("Group not found!");
+          toast.error(data.object);
           oldGroupList = oldGroupList.filter((e, i) => {
             return groupObject.group.groupID !== e.groupID;
           });
