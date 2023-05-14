@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                git branch: 'master', url: 'https://github.com/jayashree-1998/SplitwiseApplication'
+                git branch: 'SPLITWISEDEVOPS', url: 'https://github.com/jayashree-1998/SplitwiseApplication'
             }
         }
         stage('Maven Build SplitwiseRegistryService'){
