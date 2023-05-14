@@ -9,8 +9,8 @@ spring:
     name: user-service
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/userservice?createDatabaseIfNotExist=true}
-    username: ${SPRING_DATASOURCE_USERNAME:shashidhar}
-    password: ${SPRING_DATASOURCE_PASSWORD:shashidhar}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
@@ -29,3 +29,9 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:9083/eureka}
+
+logging:
+  level:
+    org:
+      hibernate:
+        boot: OFF

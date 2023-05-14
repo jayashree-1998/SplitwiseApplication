@@ -12,6 +12,8 @@ import com.splitwise.expenseservice.respository.PaidRepository;
 import com.splitwise.expenseservice.respository.TransactionRepository;
 import com.splitwise.expenseservice.services.ExpenseService;
 import com.splitwise.expenseservice.services.externalServices.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
+    private static final Logger logger = LoggerFactory.getLogger(ExpenseServiceImpl.class);
 
     @Autowired
     ExpenseRepository expenseRepository;
@@ -67,8 +70,10 @@ public class ExpenseServiceImpl implements ExpenseService {
                 owe.setExpense(savedExpense);
                 this.oweRepository.save(owe);
             }
+            logger.info("'{}' ${}$ &{}& *{}* #{}# - Expense added","","","",expense.getExpenseName(),expense.getAmount());
             return new APIResponse(savedExpense.getExpenseID(), true);
         } catch (Exception e) {
+            logger.error("'{}' ${}$ &{}& *{}* #{}# - Error in adding expense","","","","","");
             return new APIResponse("Error in adding expense", false);
         }
     }
@@ -89,6 +94,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             expenseDetail.setOweSet(expense.getOweSet());
             expenseDetailSet.add(expenseDetail);
         }
+        logger.info("'{}' ${}$ &{}& *{}* #{}# - Fetched expense list for group!","","",groupID,"","");
         return expenseDetailSet;
     }
 
@@ -97,8 +103,10 @@ public class ExpenseServiceImpl implements ExpenseService {
         try {
             Expense expense = this.expenseRepository.findById(expenseID).orElseThrow(()-> new ResourceNotFound("Expense", "ID"));
             this.expenseRepository.deleteById(expense.getExpenseID());
+            logger.info("'{}' ${}$ &{}& *{}* #{}# - Successfully deleted expense!","","",expense.getExpenseID(),expense.getExpenseName(),"");
             return new APIResponse("Successfully deleted expense!", true);
         } catch (Exception e) {
+            logger.error("'{}' ${}$ &{}& *{}* #{}# - Error deleting expense","","","","","");
             return new APIResponse("Error deleting expense!", false);
         }
     }
@@ -108,10 +116,13 @@ public class ExpenseServiceImpl implements ExpenseService {
         try {
             Set<Expense> expenses = this.expenseRepository.findExpenseByGroupID(groupID);
             for(Expense e: expenses) {
+                logger.info("'{}' ${}$ &{}& *{}* #{}# - Expenses deleted for group!","","",groupID,e.getExpenseName(),"");
                 this.expenseRepository.deleteById(e.getExpenseID());
             }
+            logger.info("'{}' ${}$ &{}& *{}* #{}# - Expenses deleted!","","","","","");
             return new APIResponse("Expenses deleted!", true);
         } catch(Exception e) {
+            logger.error("'{}' ${}$ &{}& *{}* #{}# - Error deleting expenses!","","","","","");
             return new APIResponse("Error deleting expenses!", false);
         }
     }
@@ -128,7 +139,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseDetail.setOweSet(expense.getOweSet());
         expenseDetail.setGroupID(expense.getGroupID());
         expenseDetail.setAddedBy(expense.getAddedBy());
+
+        logger.info("'{}' ${}$ &{}& *{}* #{}# - Fetched expense detail","","",expenseID,expense.getExpenseName(),"");
+
 //        expenseDetail.setExpenseName(expense.getExpenseName());
+
         return new APIResponse(expenseDetail,true);
     }
 
@@ -284,10 +299,12 @@ public class ExpenseServiceImpl implements ExpenseService {
             APIResponse response =  this.userService.settleGroup(groupID);
             apiResponse.setObject(response.getObject());
             apiResponse.setSuccess(response.getSuccess());
+            logger.info("'{}' ${}$ &{}& *{}* #{}# - Settleup successful!","","","","","");
             return apiResponse;
         } catch (Exception e) {
             apiResponse.setSuccess(false);
-            apiResponse.setObject("Cannot Perform SettleUp!");
+            logger.error("'{}' ${}$ &{}& *{}* #{}# - Could not Perform SettleUp","","","","","");
+            apiResponse.setObject("Could not Perform SettleUp!");
             return apiResponse;
         }
     }
@@ -298,9 +315,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         try {
             Set<Transaction> transactionSet = this.transactionRepository.findTransactionByGroupID(groupID);
             apiResponse.setSuccess(true);
+            logger.info("'{}' ${}$ &{}& *{}* #{}# - Transactions successfully fetched!","","","","","");
             apiResponse.setObject(transactionSet);
         } catch (Exception e) {
             apiResponse.setSuccess(false);
+            logger.error("'{}' ${}$ &{}& *{}* #{}# - Could not fetch transactions","","","","","");
             apiResponse.setObject("Could not fetch transactions!");
         }
         return apiResponse;
