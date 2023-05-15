@@ -9,7 +9,7 @@
     </appender>
 
     <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.FileAppender">
-        <file>../splitwise.log</file>
+        <file>../logs/userservice.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
                 %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level -%logger{36} - %msg%n
