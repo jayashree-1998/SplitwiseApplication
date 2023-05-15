@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
@@ -10,16 +9,12 @@
     </appender>
 
     <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.FileAppender">
-
         <file>../splitwise.log</file>
-
-
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
                 %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level -%logger{36} - %msg%n
             </Pattern>
         </encoder>
-
     </appender>
 
     <logger name="org.springframework.boot" level="OFF" />
@@ -35,5 +30,4 @@
     <root level="info">
         <appender-ref ref="SAVE-TO-FILE"/>
     </root>
-
 </configuration>

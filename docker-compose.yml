@@ -37,6 +37,8 @@ services:
       - eurekaregistry
       - apigateway
       - userservice_db
+    volumes:
+      - ./:/home/lax98/Desktop/userservicelog
 
   expenseservice:
     image: ${DOCKER_NAMESPACE}/splitwise:expenseservice
@@ -54,6 +56,8 @@ services:
       - eurekaregistry
       - apigateway
       - expenseservice_db
+    volumes:
+      - ./:/home/lax98/Desktop/expenseservicelog
 
   userservice_db:
     image: mysql:8
@@ -96,3 +100,6 @@ networks:
 volumes:
   expenseservice_db:
   userservice_db:
+  userservice:
+  expenseservice:
+
