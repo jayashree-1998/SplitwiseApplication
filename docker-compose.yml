@@ -100,6 +100,4 @@ networks:
 volumes:
   expenseservice_db:
   userservice_db:
-  userservice:
-  expenseservice:
 
