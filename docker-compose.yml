@@ -38,7 +38,7 @@ services:
       - apigateway
       - userservice_db
     volumes:
-      - /logs:/home/lax98/Desktop/userservicelog
+      - /home/lax98/Desktop:/logs
 
   expenseservice:
     image: ${DOCKER_NAMESPACE}/splitwise:expenseservice
@@ -57,7 +57,7 @@ services:
       - apigateway
       - expenseservice_db
     volumes:
-      - /logs:/home/lax98/Desktop/expenseservicelog
+      - /home/lax98/Desktop:/logs
 
   userservice_db:
     image: mysql:8
