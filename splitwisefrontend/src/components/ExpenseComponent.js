@@ -8,12 +8,14 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Divider,
   Typography,
 } from "@mui/material";
 import ExpenseList from "./ExpenseList";
 import { getTransactions, settleGroup } from "../services/expenseService";
 import { toast } from "react-toastify";
 import TransactionList from "./TransactionList";
+import { COLOR } from "../utils/constants";
 
 function ExpenseComponent() {
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
@@ -89,7 +91,7 @@ function ExpenseComponent() {
     <div
       style={{
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: COLOR.white,
         display: "flex",
         flexDirection: "column",
       }}
@@ -97,17 +99,17 @@ function ExpenseComponent() {
       <div
         style={{
           backgroundColor: "white",
-          flex: 1,
           display: "flex",
           flexDirection: "row",
-          alignItems: "center",
+          alignItems: "flex-end",
           justifyContent: "space-between",
+          margin: "12px 0px",
         }}
       >
         <div>
           <label
             style={{
-              margin: "0px 8px",
+              marginLeft: "8px",
               fontSize: "28px",
               fontWeight: "lighter",
             }}
@@ -121,29 +123,27 @@ function ExpenseComponent() {
             flexDirection: "row",
           }}
         >
-          {groupObject.group.settled === false ? (
-            <div>
-              <button
-                style={{
-                  margin: "0px 8px",
-                }}
-                className="button"
-                onClick={() => {
-                  openModal();
-                }}
-              >
-                Add Expense
-              </button>
-              {showAddExpenseModal && (
-                <ExpenseProvider paidSet={paidSet} owedSet={owedSet}>
-                  <AddExpenseModal
-                    closeModal={closeModal}
-                    modalHeading={"Add Expense"}
-                  />
-                </ExpenseProvider>
-              )}
-            </div>
-          ) : null}
+          <div>
+            <button
+              style={{
+                backgroundColor: COLOR.secondaryColor,
+              }}
+              className="button"
+              onClick={() => {
+                openModal();
+              }}
+            >
+              Add Expense
+            </button>
+            {showAddExpenseModal && (
+              <ExpenseProvider paidSet={paidSet} owedSet={owedSet}>
+                <AddExpenseModal
+                  closeModal={closeModal}
+                  modalHeading={"Add Expense"}
+                />
+              </ExpenseProvider>
+            )}
+          </div>
 
           <div
             style={{
@@ -159,6 +159,7 @@ function ExpenseComponent() {
                 <button
                   style={{
                     color: "white",
+                    backgroundColor: COLOR.primaryColor,
                   }}
                   className="button"
                   onClick={async () => {
@@ -177,6 +178,7 @@ function ExpenseComponent() {
                 <button
                   style={{
                     color: "white",
+                    backgroundColor: COLOR.primaryColor,
                   }}
                   className="button"
                   onClick={async () => {
@@ -189,6 +191,7 @@ function ExpenseComponent() {
                 <button
                   style={{
                     color: "white",
+                    backgroundColor: COLOR.primaryColor,
                   }}
                   className="button"
                   onClick={() => {
@@ -201,13 +204,37 @@ function ExpenseComponent() {
           </div>
         </div>
       </div>
+      <Divider
+        variant="middle"
+        style={{
+          backgroundColor: COLOR.dividerColor,
+        }}
+      />
       <div
         style={{
+          marginTop: "8px",
+          marginLeft: "8px",
+          marginRight: "8px",
           flex: 10,
+          display: "flex",
         }}
       >
         {showExpenseList ? (
-          <ExpenseList />
+          groupObject.expenseList?.length !== 0 ? (
+            <ExpenseList />
+          ) : (
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: COLOR.gray,
+              }}
+            >
+              no expense added
+            </div>
+          )
         ) : (
           <TransactionList transactionList={transactionList} />
         )}

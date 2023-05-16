@@ -100,8 +100,15 @@ function PaidByModal({ modalHeading, closeModal }) {
               );
             })}
           </div>
-          <div>
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
             <button
+              style={{
+                flex: 1,
+              }}
               className="button"
               onClick={() => {
                 closeModal();

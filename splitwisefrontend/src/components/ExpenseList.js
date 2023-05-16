@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-import { timePattern } from "../utils/constants";
+import { COLOR, timePattern } from "../utils/constants";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteExpense } from "../services/expenseService";
 import { toast } from "react-toastify";
@@ -43,16 +43,22 @@ function ExpenseList() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        flex: 1,
+      }}
+    >
       {userNameIDMap &&
         groupObject.expenseList &&
         groupObject.expenseList.map((e, i) => {
+          console.log(e);
           return (
             <div key={e.expenseID}>
               <Accordion
                 style={{
-                  margin: "4px 8px",
-                  backgroundColor: "#7b7b7b",
+                  margin: "4px 0px",
+                  backgroundColor: COLOR.dividerColor,
+                  borderRadius: "8px",
                 }}
               >
                 <AccordionSummary aria-controls="panel1d-content">
@@ -72,10 +78,18 @@ function ExpenseList() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <Typography style={{ marginRight: "8px" }}>
+                      <Typography
+                        style={{
+                          marginRight: "8px",
+                        }}
+                      >
                         <label>{e.expenseName}</label>
                       </Typography>
-                      <Typography>
+                      <Typography
+                        style={{
+                          color: COLOR.tertiaryColor,
+                        }}
+                      >
                         <label>₹{e.amount}</label>
                       </Typography>
                     </div>
@@ -88,13 +102,25 @@ function ExpenseList() {
                     >
                       {userNameIDMap[e.addedBy] !== undefined && (
                         <label>
-                          Added by {userNameIDMap[e.addedBy].substring(0, 10)}{" "}
+                          Added by{" "}
+                          <label
+                            style={{
+                              color: COLOR.tertiaryColor,
+                            }}
+                          >
+                            {userNameIDMap[e.addedBy].length > 10
+                              ? `${userNameIDMap[e.addedBy].substring(
+                                  0,
+                                  10
+                                )}.. `
+                              : `${userNameIDMap[e.addedBy].substring(0, 10)} `}
+                          </label>
                           on {timePattern(e.date)}
                         </label>
                       )}
                       {groupObject.group.settled === false && (
                         <DeleteIcon
-                          htmlColor="#3d3d3d"
+                          htmlColor={COLOR.tertiaryColor}
                           style={{
                             marginLeft: "16px",
                             alignSelf: "center",
@@ -112,7 +138,9 @@ function ExpenseList() {
                 </AccordionSummary>
                 <AccordionDetails
                   style={{
-                    backgroundColor: "#c2c2c2",
+                    backgroundColor: COLOR.secondaryColor,
+                    borderBottomLeftRadius: "8px",
+                    borderBottomRightRadius: "8px",
                   }}
                 >
                   <div
@@ -124,7 +152,12 @@ function ExpenseList() {
                   >
                     {e.paidSet.map((p, i) => {
                       return (
-                        <Typography key={p.paidID}>
+                        <Typography
+                          key={p.userID}
+                          style={{
+                            color: COLOR.dividerColor,
+                          }}
+                        >
                           {userNameIDMap[p.userID]} paid ₹{p.amount}
                         </Typography>
                       );
@@ -139,7 +172,12 @@ function ExpenseList() {
                   >
                     {e.oweSet.map((o, i) => {
                       return (
-                        <Typography key={o.oweID}>
+                        <Typography
+                          key={o.userID}
+                          style={{
+                            color: COLOR.dividerColor,
+                          }}
+                        >
                           {userNameIDMap[o.userID]} owes ₹{o.amount}
                         </Typography>
                       );

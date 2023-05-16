@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.body {
+  font-family: 'Montserrat';
+}
+
 #root {
   height: 100vh;
 }
@@ -14,12 +18,12 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
-  background: linear-gradient(135deg, #f5f5f5, #fafafb);
+  background-color: #ffffff;
 }
 
 .button {
   padding: 12px;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
   color: #fff;
   font-size: 18px;
@@ -27,8 +31,7 @@
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  /* background: linear-gradient(135deg, #518495, #518495); */
-  background: #959595;
+  background-color: #183a5f;
 }
 
 .container {
@@ -36,8 +39,8 @@
   width: 100%;
   background-color: #fff;
   padding: 25px 30px;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 5px 10px #306eb126;
 }
 .container .title {
   font-size: 25px;
@@ -51,9 +54,8 @@
   bottom: 0;
   height: 3px;
   width: 30px;
-  border-radius: 5px;
-  /* background: linear-gradient(135deg, #518495, #518495); */
-  background: #959595;
+  border-radius: 8px;
+  background: #183a5f;
 }
 .content form .user-details {
   display: flex;
@@ -75,7 +77,7 @@ form .input-box span.details {
   width: 100%;
   outline: none;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 8px;
   padding-left: 15px;
   border: 1px solid #ccc;
   transition: all 0.3s ease;
@@ -83,7 +85,7 @@ form .input-box span.details {
 
 .user-details .input-box input:focus,
 .user-details .input-box input:valid {
-  border-color: #959595;
+  border-color: #183a5f;
 }
 form .gender-details .gender-title {
   font-size: 20px;
@@ -105,15 +107,15 @@ form .category label .dot {
   width: 18px;
   border-radius: 50%;
   margin-right: 10px;
-  background: #d9d9d9;
+  background: #183a5f;
   border: 5px solid transparent;
   transition: all 0.3s ease;
 }
 #dot-1:checked ~ .category label .one,
 #dot-2:checked ~ .category label .two,
 #dot-3:checked ~ .category label .three {
-  background: #959595;
-  border-color: #d9d9d9;
+  background: #183a5f;
+  border-color: #183a5f;
 }
 form input[type="radio"] {
   display: none;
@@ -125,7 +127,7 @@ form .button {
 form .button input {
   height: 100%;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
   color: #fff;
   font-size: 18px;
@@ -133,11 +135,11 @@ form .button input {
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, #959595, #959595);
+  background-color: #183a5f;
 }
 form .button input:hover {
   /* transform: scale(0.99); */
-  background: linear-gradient(-135deg, #959595, #959595);
+  background-color: #183a5f;
 }
 
 @media (max-width: 584px) {
@@ -217,12 +219,12 @@ form .button input:hover {
 .modal-container {
   position: fixed;
   max-width: 30%;
-  width: 80%;
+  width:auto;
   height: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 8px 8px;
+  padding: 16px;
   border-radius: 8px;
   background: rgb(255, 255, 255);
 }

@@ -47,79 +47,103 @@ function Register() {
   }
 
   return (
-    <div className="formPage">
-      <div className="container">
-        <div className="title">REGISTER</div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        className="formPage"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <div
-          className="content"
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{
+            fontSize: "32px",
+            marginBottom: "48px",
+            fontFamily: "Montserrat",
+          }}
         >
-          <form onSubmit={onRegister}>
-            <div className="user-details">
-              <div className="input-box">
-                <span className="details">Name</span>
-                <input
-                  name="name"
-                  type="text"
-                  placeholder="Name"
-                  value={userData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="input-box">
-                <span className="details">Mobile Number</span>
-                <input
-                  name="mobileNumber"
-                  type="text"
-                  minLength={10}
-                  maxLength={10}
-                  pattern="[1-9]{1}[0-9]{9}"
-                  title="mobile no can only be between 0 to 9"
-                  placeholder="+91"
-                  value={userData.mobileNumber}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+          SPLITTER
+        </div>
+        <div className="container">
+          <div className="title">REGISTER</div>
+          <div
+            className="content"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <form onSubmit={onRegister}>
+              <div className="user-details">
+                <div className="input-box">
+                  <span className="details">Name</span>
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Name"
+                    value={userData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="input-box">
+                  <span className="details">Mobile Number</span>
+                  <input
+                    name="mobileNumber"
+                    type="text"
+                    minLength={10}
+                    maxLength={10}
+                    pattern="[1-9]{1}[0-9]{9}"
+                    title="mobile no can only be between 0 to 9"
+                    placeholder="+91"
+                    value={userData.mobileNumber}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-              <div className="input-box">
-                <span className="details">Email</span>
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  value={userData.email}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="input-box">
+                  <span className="details">Email</span>
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    value={userData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="input-box">
+                  <span className="details">Password</span>
+                  <input
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    value={userData.password}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="input-box">
+                  <InputField
+                    title={"Confirm Password"}
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="ReEnter Password"
+                    value={confirmPassword}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
-              <div className="input-box">
-                <span className="details">Password</span>
-                <input
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  value={userData.password}
-                  onChange={handleChange}
-                  required
-                />
+              <div className="button">
+                <input type="submit" value="REGISTER" />
               </div>
-              <div className="input-box">
-                <InputField
-                  title={"Confirm Password"}
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="ReEnter Password"
-                  value={confirmPassword}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            <div className="button">
-              <input type="submit" value="REGISTER" />
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

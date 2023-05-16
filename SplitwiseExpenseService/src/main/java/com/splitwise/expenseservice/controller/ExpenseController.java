@@ -53,7 +53,6 @@ public class ExpenseController {
 
     @GetMapping("/settle-up/{groupID}")
     public ResponseEntity<APIResponse> settleUp(@PathVariable String groupID) {
-        // TODO: transaction algorithm not done
         APIResponse apiResponse = this.expenseService.settleUpGroup(groupID);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

@@ -20,13 +20,20 @@ function GroupDashboard() {
   }, [selectedGroup, setGroupObject]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
       <div
         style={{
           flex: 5,
           backgroundColor: "white",
           display: "flex",
           flexDirection: "row",
+          height: "100vh",
+          overflowY: "scroll",
         }}
       >
         {groupObject && <ExpenseComponent />}
@@ -35,9 +42,7 @@ function GroupDashboard() {
       <div
         style={{
           flex: 2,
-          height: "100vh",
-          width: "300px",
-          backgroundColor: "#959595",
+          backgroundColor: "#306eb1",
           display: "flex",
           flexDirection: "column",
         }}

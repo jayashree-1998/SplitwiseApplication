@@ -3,6 +3,7 @@ import { login } from "../services/loginService";
 import InputField from "../components/InputField";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { COLOR } from "../utils/constants";
 
 function Login() {
   const navigate = useNavigate();
@@ -45,74 +46,98 @@ function Login() {
   }
 
   return (
-    <div className="formPage">
-      <div className="container">
-        <div className="title">LOGIN</div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        className="formPage"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <div
-          className="content"
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{
+            fontSize: "32px",
+            marginBottom: "48px",
+            fontFamily: "Montserrat",
+          }}
         >
-          <form onSubmit={onSubmit}>
-            <div className="user-details">
-              <div className="input-box">
-                <InputField
-                  title={"Email"}
-                  name={"email"}
-                  type={"email"}
-                  value={loginData.email}
-                  placeholder={"Email"}
-                  onChange={handleChange}
-                />
+          SPLITTER
+        </div>
+        <div className="container">
+          <div className="title">LOGIN</div>
+          <div
+            className="content"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <form onSubmit={onSubmit}>
+              <div className="user-details">
+                <div className="input-box">
+                  <InputField
+                    title={"Email"}
+                    name={"email"}
+                    type={"email"}
+                    value={loginData.email}
+                    placeholder={"Email"}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="input-box">
+                  <InputField
+                    title={"Password"}
+                    name="password"
+                    type="password"
+                    value={loginData.password}
+                    placeholder={"Password"}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
-              <div className="input-box">
-                <InputField
-                  title={"Password"}
-                  name="password"
-                  type="password"
-                  value={loginData.password}
-                  placeholder={"Password"}
-                  onChange={handleChange}
-                />
+              <div className="button">
+                <input type="submit" value="LOGIN" />
               </div>
-            </div>
-            <div className="button">
-              <input type="submit" value="LOGIN" />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                flex: 1,
-                justifyContent: "flex-start",
-                alignItems: "center",
-                flexDirection: "row",
-              }}
-            >
-              <div>
-                <label
-                  style={{
-                    fontWeight: "100",
-                    fontSize: "14px",
-                  }}
-                >
-                  Don't have an account?&nbsp;
-                </label>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  flex: 1,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  flexDirection: "row",
+                }}
+              >
+                <div>
+                  <label
+                    style={{
+                      fontWeight: "100",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Don't have an account?&nbsp;
+                  </label>
+                </div>
+                <div>
+                  <button
+                    className="button2"
+                    style={{
+                      color: COLOR.primaryColor,
+                      fontWeight: "400",
+                      fontSize: "14px",
+                    }}
+                    onClick={register}
+                  >
+                    Create account
+                  </button>
+                </div>
               </div>
-              <div>
-                <button
-                  className="button2"
-                  style={{
-                    color: "#636363",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                  }}
-                  onClick={register}
-                >
-                  Create account
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

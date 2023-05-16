@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
+import { COLOR } from "../utils/constants";
 
 function TransactionList({ transactionList }) {
   const [userNameIDMap, setUserNameIDMap] = useState(null);
@@ -22,19 +23,50 @@ function TransactionList({ transactionList }) {
   }, [groupObject.userList]);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      style={{
+        marginTop: "4px",
+        borderRadius: "8px",
+      }}
+    >
       <Table>
-        <TableHead>
+        <TableHead
+          style={{
+            backgroundColor: COLOR.secondaryColor,
+          }}
+        >
           <TableRow>
-            <TableCell>Payer Name</TableCell>
-            <TableCell>Payee Name</TableCell>
-            <TableCell>Amount (₹)</TableCell>
+            <TableCell
+              style={{
+                color: COLOR.white,
+              }}
+            >
+              Payer Name
+            </TableCell>
+            <TableCell
+              style={{
+                color: COLOR.white,
+              }}
+            >
+              Payee Name
+            </TableCell>
+            <TableCell
+              style={{
+                color: COLOR.white,
+              }}
+            >
+              Amount (₹)
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {userNameIDMap &&
             transactionList.map((row) => (
               <TableRow
+                style={{
+                  backgroundColor: COLOR.dividerColor,
+                }}
                 key={row.transactionID}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >

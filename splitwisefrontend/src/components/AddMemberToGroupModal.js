@@ -8,7 +8,7 @@ const AddMemberToGroupModal = ({
   addMember,
 }) => {
   return (
-    <div className="modal-wrapper" style={{ padding: 10 }}>
+    <div className="modal-wrapper">
       <div className="modal-container">
         <div
           style={{
@@ -17,14 +17,21 @@ const AddMemberToGroupModal = ({
             justifyContent: "space-between",
           }}
         >
-          <label>{modalHeading}</label>
-          <button className="button" onClick={closeModal}>
-            x
-          </button>
+          <label
+            style={{
+              fontSize: "24px",
+            }}
+          >
+            {modalHeading}
+          </label>
         </div>
         <div className="input-box" style={{ display: "flex" }}>
-          <span className="details">Email ID</span>
           <input
+            style={{
+              borderRadius: "8px",
+              padding: "12px 4px",
+              fontSize: "16px",
+            }}
             name="emailID"
             type="email"
             value={emailID}
@@ -32,9 +39,34 @@ const AddMemberToGroupModal = ({
             onChange={handleChange}
           />
         </div>
-        <button className="button" onClick={() => addMember(emailID)}>
-          Add
-        </button>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            padding: "8px 0px",
+          }}
+        >
+          <button
+            style={{
+              flex: 1,
+              marginRight: "8px",
+            }}
+            className="button"
+            onClick={() => addMember(emailID)}
+          >
+            Add
+          </button>
+          <button
+            style={{
+              flex: 1,
+              marginRight: "8px",
+            }}
+            className="button"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
