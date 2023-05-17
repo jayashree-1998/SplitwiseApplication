@@ -193,7 +193,6 @@ public class ExpenseServiceImpl implements ExpenseService {
             Set<Expense> expenseSet = this.expenseRepository.findExpenseByGroupIDAndIsNotSettled(groupID);
             System.out.println("expense set size: "+expenseSet.size());
 
-            // todo: we need to make this expenses in expenseSet settled to true
             for(Expense expense: expenseSet) {
                 expense.setSettled(true);
                 this.expenseRepository.save(expense);
