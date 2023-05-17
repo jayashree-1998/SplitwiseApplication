@@ -26,8 +26,6 @@ public class Group {
     @Column(nullable = false)
     private String ownerID;
 
-    private boolean isSettled;
-
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name ="user_group_table", joinColumns = @JoinColumn(name = "group_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))

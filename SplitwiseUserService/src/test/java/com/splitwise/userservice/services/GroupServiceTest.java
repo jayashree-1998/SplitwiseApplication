@@ -38,7 +38,7 @@ public class GroupServiceTest {
     @Test
     public void createGroupTest() throws Exception {
         User user = new User("user1", "shashidhar", "shashi@gmail.com", "shashi", "9637355303", new HashSet<>());
-        Group group = new Group("group1", "SPE Group", user.getUserID(), true, new HashSet<>());
+        Group group = new Group("group1", "SPE Group", user.getUserID(), new HashSet<>());
 
         when(userRepository.findById("user1")).thenReturn(Optional.of(user));
         when(groupRepository.save(group)).thenReturn(group);
@@ -50,7 +50,7 @@ public class GroupServiceTest {
     public void addUserToGroupWithEmailIdTest() throws Exception{
         User user = new User("user1", "shashidhar", "shashi@gmail.com", "shashi", "9637355303", new HashSet<>());
 
-        Group group = new Group("group1", "SPE Group", "user1", true, new HashSet<>());
+        Group group = new Group("group1", "SPE Group", "user1", new HashSet<>());
 
         when(groupRepository.findById("group1")).thenReturn(Optional.of(group));
         when(userRepository.findUserByEmail("shashi@gmail.com")).thenReturn(user);
@@ -64,7 +64,7 @@ public class GroupServiceTest {
     public void exitGroupTest() throws Exception {
         User user = new User("user1", "shashidhar", "shashi@gmail.com", "shashi", "9637355303", new HashSet<>());
         HashSet<User> userSet = new HashSet<>(Set.of(user));
-        Group group = new Group("group1", "SPE Group", "user1", true, userSet);
+        Group group = new Group("group1", "SPE Group", "user1", userSet);
 
         when(groupRepository.findById("group1")).thenReturn(Optional.of(group));
         when(userRepository.save(user)).thenReturn(user);
@@ -84,7 +84,7 @@ public class GroupServiceTest {
         HashSet<User> userSet = new HashSet<>(Set.of(user1, user2));
 
         // user1 and user2 are added in group
-        Group group = new Group("group1", "SPE Group", "user1", true, userSet);
+        Group group = new Group("group1", "SPE Group", "user1", userSet);
 
         when(groupRepository.findById("group1")).thenReturn(Optional.of(group));
 
@@ -93,7 +93,7 @@ public class GroupServiceTest {
 
     @Test
     public void settleGroupTest() {
-        Group group = new Group("group1", "SPE Group", "user1", false, new HashSet<>());
+        Group group = new Group("group1", "SPE Group", "user1", new HashSet<>());
         when(groupRepository.findById("group1")).thenReturn(Optional.of(group));
 
         assertEquals(true, groupService.settleGroup("group1").getSuccess());

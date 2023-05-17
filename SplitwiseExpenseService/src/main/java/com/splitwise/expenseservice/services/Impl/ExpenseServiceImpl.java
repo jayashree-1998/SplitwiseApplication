@@ -51,6 +51,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             expense.setAmount(expenseBody.getAmount());
             expense.setAddedBy(expenseBody.getAddedBy());
             expense.setExpenseName(expenseBody.getExpenseName());
+            expense.setSettled(false);
             expense.setDate(date);
             Expense savedExpense = this.expenseRepository.save(expense);
             Set<UserAmount> paidBySet = expenseBody.getPaidBySet();
@@ -92,6 +93,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             expenseDetail.setGroupID(expense.getGroupID());
             expenseDetail.setPaidSet(expense.getPaidSet());
             expenseDetail.setOweSet(expense.getOweSet());
+            expenseDetail.setSettled(expense.isSettled());
             expenseDetailSet.add(expenseDetail);
         }
         logger.info("'{}' ${}$ &{}& *{}* #{}# - Fetched expense list for group!","","",groupID,"","");
@@ -139,7 +141,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseDetail.setOweSet(expense.getOweSet());
         expenseDetail.setGroupID(expense.getGroupID());
         expenseDetail.setAddedBy(expense.getAddedBy());
-
+        expenseDetail.setSettled(expense.isSettled());
         logger.info("'{}' ${}$ &{}& *{}* #{}# - Fetched expense detail","","",expenseID,expense.getExpenseName(),"");
 
 //        expenseDetail.setExpenseName(expense.getExpenseName());
@@ -166,15 +168,63 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public APIResponse settleTransaction(String transactionID) {
+        Transaction transaction = this.transactionRepository.findById(transactionID).orElseThrow(()-> new ResourceNotFound("Transaction", "ID"));;
+        APIResponse apiResponse = new APIResponse();
+        try {
+            transaction.setSettled(true);
+            this.transactionRepository.save(transaction);
+            apiResponse.setObject("Transaction Settled!");
+            apiResponse.setSuccess(true);
+        } catch (Exception e) {
+            apiResponse.setObject("Error in settling transaction!");
+            apiResponse.setSuccess(false);
+        }
+        return apiResponse;
+    }
+
+    @Override
     public APIResponse settleUpGroup(String groupID) {
         APIResponse apiResponse = new APIResponse();
 
         try {
-            // flush the transactions if found with given groupID;
-            this.transactionRepository.deleteTransactionByGroupID(groupID);
 
-            // get expense list from expense_table
-            Set<Expense> expenseSet = this.expenseRepository.findExpenseByGroupID(groupID);
+            // get expense list from expense_table which are not yet settled
+            Set<Expense> expenseSet = this.expenseRepository.findExpenseByGroupIDAndIsNotSettled(groupID);
+            System.out.println("expense set size: "+expenseSet.size());
+
+            // todo: we need to make this expenses in expenseSet settled to true
+            for(Expense expense: expenseSet) {
+                expense.setSettled(true);
+                this.expenseRepository.save(expense);
+            }
+
+            // get the transactions with groupID and isSettled = false
+            Set<Transaction> transactionSet = this.transactionRepository.findTransactionsByGroupIDAndIsNotSettled(groupID);
+            System.out.print("transaction set size: "+transactionSet.size());
+
+            // delete each of  transactions
+            if(transactionSet.size()>0){
+                System.out.println("deleting transaction set ");
+                this.transactionRepository.deleteTransactionByGroupIDAndIsNotSettled(groupID);
+            }
+
+            // create each of the transaction into expense and append them into expenseSet
+            for(Transaction transaction: transactionSet) {
+
+                System.out.println("converting transactions to expenses");
+                Expense expense = new Expense();
+
+                expense.setAmount(transaction.getAmount());
+
+                Set<Paid> paidSet = Set.of(new Paid("", transaction.getAmount(), transaction.getPayeeID(), null));
+                expense.setPaidSet(paidSet);
+
+                Set<Owe> oweSet = Set.of(new Owe("", transaction.getAmount(), transaction.getPayerID(), null));
+                expense.setOweSet(oweSet);
+
+                expenseSet.add(expense);
+            }
 
             // Settle Up Algorithm
 
@@ -182,8 +232,6 @@ public class ExpenseServiceImpl implements ExpenseService {
             HashMap<String, Double> balanceList = new HashMap<>();
 
             for (Expense expense : expenseSet) {
-                System.out.println(expense.getExpenseName());
-
                 Set<Paid> paidSet = expense.getPaidSet();
                 Set<Owe> oweSet = expense.getOweSet();
 
@@ -218,10 +266,6 @@ public class ExpenseServiceImpl implements ExpenseService {
                     }
                 }
             }
-
-    //        for(Map.Entry<String, Double> entry: balanceList.entrySet()) {
-    //            System.out.println(entry.getKey() + ": " + entry.getValue());
-    //        }
 
             // giver, receiver list
             HashMap<String, Double> giverList = new HashMap<>();

@@ -118,7 +118,7 @@ function ExpenseList() {
                           on {timePattern(e.date)}
                         </label>
                       )}
-                      {groupObject.group.settled === false && (
+                      {e.settled === false ? (
                         <DeleteIcon
                           htmlColor={COLOR.tertiaryColor}
                           style={{
@@ -132,7 +132,7 @@ function ExpenseList() {
                             }
                           }}
                         />
-                      )}
+                      ) : null}
                     </Typography>
                   </div>
                 </AccordionSummary>

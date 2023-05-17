@@ -19,6 +19,7 @@ const AddExpenseModal = ({ closeModal, modalHeading }) => {
     groupID: groupObject.group.groupID.toString(),
     expenseName: "",
     amount: 0,
+    isSettled: false,
     addedBy: userObject.user_id.toString(),
   });
   const { paidObject, owedObject } = useContext(ExpenseContext);
@@ -72,6 +73,7 @@ const AddExpenseModal = ({ closeModal, modalHeading }) => {
         amount: expenseObject.amount,
         date: new Date().toISOString(),
         addedBy: userObject.user_id,
+        settled: false,
         paidSet: paidSet,
         oweSet: owedSet,
       };
