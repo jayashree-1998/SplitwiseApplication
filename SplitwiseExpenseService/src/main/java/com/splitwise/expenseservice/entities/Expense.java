@@ -36,6 +36,9 @@ public class Expense {
     @Column(nullable = false)
     private String addedBy;
 
+    @Column
+    private boolean isSettled;
+
     @JsonIgnore
     @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Paid> paidSet = new HashSet<>();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,11 +8,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
 import { COLOR } from "../utils/constants";
+import { Button } from "@mui/material";
+import { UserContext } from "../contexts/UserContext";
 
-function TransactionList({ transactionList }) {
+function TransactionList({ transactionList, amountReceived }) {
   const [userNameIDMap, setUserNameIDMap] = useState(null);
+  const [userObject] = useContext(UserContext);
   const [selectedGroup, setSelectedGroup, groupObject, setGroupObject] =
-    React.useContext(GroupDetailContext);
+    useContext(GroupDetailContext);
 
   useEffect(() => {
     let userIDMap = {};
@@ -58,6 +61,7 @@ function TransactionList({ transactionList }) {
             >
               Amount (₹)
             </TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -73,6 +77,35 @@ function TransactionList({ transactionList }) {
                 <TableCell>{userNameIDMap[row.payerID]}</TableCell>
                 <TableCell>{userNameIDMap[row.payeeID]}</TableCell>
                 <TableCell>₹ {row.amount}</TableCell>
+                {row.payeeID === userObject.user_id ? (
+                  row.settled === false ? (
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor: COLOR.white,
+                          color: COLOR.secondaryColor,
+                          borderRadius: "8px",
+                        }}
+                        onClick={() => {
+                          amountReceived(row);
+                        }}
+                      >
+                        Received
+                      </Button>
+                    </TableCell>
+                  ) : (
+                    <TableCell
+                      style={{
+                        color: COLOR.white,
+                      }}
+                    >
+                      settled
+                    </TableCell>
+                  )
+                ) : (
+                  <TableCell />
+                )}
               </TableRow>
             ))}
         </TableBody>

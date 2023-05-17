@@ -25,4 +25,5 @@ public class ExpenseDetail {
     private String addedBy;
     private Set<Paid> paidSet = new HashSet<>();
     private Set<Owe> oweSet = new HashSet<>();
+    private boolean isSettled;
 }

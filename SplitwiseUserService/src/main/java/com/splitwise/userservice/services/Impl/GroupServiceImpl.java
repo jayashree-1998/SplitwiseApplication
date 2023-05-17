@@ -173,7 +173,6 @@ public class GroupServiceImpl implements GroupService {
         APIResponse apiResponse = new APIResponse();
         Group group = this.groupRepository.findById(groupID).orElseThrow(() -> new ResourceNotFound("Group", "Id"));
         try {
-            group.setSettled(true);
             this.groupRepository.save(group);
             apiResponse.setSuccess(true);
             logger.info("'{}' ${}$ &{}& *{}* #{}# - Group Settled","","","","","");

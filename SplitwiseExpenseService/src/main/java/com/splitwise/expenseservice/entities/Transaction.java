@@ -31,4 +31,7 @@ public class Transaction {
 
     @Column(nullable = false)
     private boolean hasPaid;
+
+    @Column
+    private boolean isSettled;
 }

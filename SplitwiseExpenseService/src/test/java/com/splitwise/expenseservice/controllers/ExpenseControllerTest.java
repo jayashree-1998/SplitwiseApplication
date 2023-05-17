@@ -55,7 +55,7 @@ public class ExpenseControllerTest {
 
     @Test
     public void getExpenseListForGroupAPITest() throws Exception {
-        Set<ExpenseDetail> expenseDetailSet = Set.of(new ExpenseDetail("expense1", "food", "group1", 100.0, new Date(),"user1", new HashSet<>(), new HashSet<>()), new ExpenseDetail("expense2", "food", "group2", 200.0, new Date(),"user2", new HashSet<>(), new HashSet<>()));
+        Set<ExpenseDetail> expenseDetailSet = Set.of(new ExpenseDetail("expense1", "food", "group1", 100.0, new Date(),"user1", new HashSet<>(), new HashSet<>(), false), new ExpenseDetail("expense2", "food", "group2", 200.0, new Date(),"user2", new HashSet<>(), new HashSet<>(), false));
 
         when(expenseService.getExpenseListWithGroupID("group1")).thenReturn(expenseDetailSet);
 

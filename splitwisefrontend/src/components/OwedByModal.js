@@ -51,6 +51,13 @@ function OwedByModal({ modalHeading, closeModal }) {
         >
           <div
             style={{
+              fontSize: "24px",
+            }}
+          >
+            Owed Members:
+          </div>
+          <div
+            style={{
               display: "flex",
               whiteSpace: "nowrap",
               flexDirection: "column",

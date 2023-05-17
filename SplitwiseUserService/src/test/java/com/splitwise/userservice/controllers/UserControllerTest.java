@@ -66,7 +66,7 @@ public class UserControllerTest {
     @Test
     public void getAllGroupByUserIDTest() throws Exception {
         User user1 = new User("user1", "user1", "user1@gmail.com", "user1", "1122334455", new HashSet<>());
-        Set<Group> groupSet = Set.of(new Group("group1", "SPE", "user1", false, new HashSet<>()), new Group("group2", "FSL", "user2", false, new HashSet<>()));
+        Set<Group> groupSet = Set.of(new Group("group1", "SPE", "user1", new HashSet<>()), new Group("group2", "FSL", "user2", new HashSet<>()));
         user1.setGroupList(groupSet);
 
         when(userService.getAllGroupsByUserID("user1")).thenReturn(groupSet);

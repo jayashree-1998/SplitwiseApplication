@@ -40,8 +40,8 @@ public class ExpenseServiceTest {
 
     @Test
     public void getExpenseListWithGroupIDTest() {
-        Expense expense1 = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", new HashSet<>(), new HashSet<>());
-        Expense expense2 = new Expense("expense2","cloth", "group2", 200.0, new Date(), "user1", new HashSet<>(), new HashSet<>());
+        Expense expense1 = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", false, new HashSet<>(), new HashSet<>());
+        Expense expense2 = new Expense("expense2","cloth", "group2", 200.0, new Date(), "user1", false, new HashSet<>(), new HashSet<>());
 
         Set<Expense> expenses = Set.of(expense1, expense2);
 
@@ -51,7 +51,7 @@ public class ExpenseServiceTest {
 
     @Test
     public void deleteExpenseTest() {
-        Expense expense = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", new HashSet<>(), new HashSet<>());
+        Expense expense = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", false, new HashSet<>(), new HashSet<>());
 
         when(expenseRepository.findById("expense1")).thenReturn(Optional.of(expense));
 
@@ -61,8 +61,8 @@ public class ExpenseServiceTest {
 
     @Test
     public void deleteExpenseWithGroupIDTest() {
-        Expense expense1 = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", new HashSet<>(), new HashSet<>());
-        Expense expense2 = new Expense("expense2","cloth", "group1", 200.0, new Date(), "user2", new HashSet<>(), new HashSet<>());
+        Expense expense1 = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", false, new HashSet<>(), new HashSet<>());
+        Expense expense2 = new Expense("expense2","cloth", "group1", 200.0, new Date(), "user2", false, new HashSet<>(), new HashSet<>());
 
         Set<Expense> expenses = Set.of(expense1, expense2);
         when(expenseRepository.findExpenseByGroupID("group1")).thenReturn(expenses);
@@ -71,7 +71,7 @@ public class ExpenseServiceTest {
 
     @Test
     public void getExpenseDetailsByExpenseIDTest() {
-        Expense expense = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", new HashSet<>(), new HashSet<>());
+        Expense expense = new Expense("expense1","food", "group1", 100.0, new Date(), "user1", false, new HashSet<>(), new HashSet<>());
 
         ExpenseDetail expenseDetail = new ExpenseDetail();
         expenseDetail.setExpenseID(expense.getExpenseID());
@@ -92,8 +92,8 @@ public class ExpenseServiceTest {
 
     @Test
     public void showTransactionForGroupTest() {
-        Transaction transaction1 = new Transaction("t1", "g1", "u1", "u2", 100.0, false);
-        Transaction transaction2 = new Transaction("t2", "g1", "u1", "u3", 150.0, false);
+        Transaction transaction1 = new Transaction("t1", "g1", "u1", "u2", 100.0, false, false);
+        Transaction transaction2 = new Transaction("t2", "g1", "u1", "u3", 150.0, false, false);
         Set<Transaction> transactionSet = Set.of(transaction1, transaction2);
         when(transactionRepository.findTransactionByGroupID("g1")).thenReturn(transactionSet);
         Set<Transaction> actualTransactionSet = (Set<Transaction>) expenseService.showTransactionForGroup("g1").getObject();

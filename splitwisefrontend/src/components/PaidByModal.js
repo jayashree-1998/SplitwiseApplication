@@ -51,6 +51,13 @@ function PaidByModal({ modalHeading, closeModal }) {
         >
           <div
             style={{
+              fontSize: "24px",
+            }}
+          >
+            Paid Members:
+          </div>
+          <div
+            style={{
               display: "flex",
               whiteSpace: "nowrap",
               flexDirection: "column",

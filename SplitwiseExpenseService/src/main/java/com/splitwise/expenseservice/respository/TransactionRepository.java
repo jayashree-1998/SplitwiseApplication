@@ -18,5 +18,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, String
     @Query(value = "delete from transaction_table t where t.groupid = :groupID", nativeQuery = true)
     void deleteTransactionByGroupID(@Param("groupID") String groupID);
 
+    @Modifying
+    @Transactional
+    @Query(value = "delete from transaction_table t where t.groupid = :groupID and t.is_settled=false", nativeQuery = true)
+    void deleteTransactionByGroupIDAndIsNotSettled(@Param("groupID") String groupID);
+
     Set<Transaction> findTransactionByGroupID(String groupID);
+
+
+    @Query(value = "select * from transaction_table t where t.groupid = :groupID and t.is_settled=false", nativeQuery = true)
+    Set<Transaction> findTransactionsByGroupIDAndIsNotSettled(String groupID);
 }
