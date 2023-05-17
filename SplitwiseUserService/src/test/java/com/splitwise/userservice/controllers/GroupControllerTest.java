@@ -40,7 +40,7 @@ public class GroupControllerTest {
 
     @Test
     public void createGroupAPITest() throws Exception {
-        Group group = new Group("group1", "SPE Group", "user1", false, new HashSet<>());
+        Group group = new Group("group1", "SPE Group", "user1", new HashSet<>());
 
         when(groupService.createGroup(group)).thenReturn(group);
         this.mockMvc.perform(post("/group/create-group")
@@ -51,7 +51,7 @@ public class GroupControllerTest {
 
     @Test
     public void getGroupDetailAPITest() throws Exception {
-        Group group = new Group("group1", "SPE Group", "user1", false, new HashSet<>());
+        Group group = new Group("group1", "SPE Group", "user1", new HashSet<>());
         APIResponse successResponse = new APIResponse("", true);
 
         when(groupService.getGroupDetail(group.getGroupID())).thenReturn(successResponse);
@@ -67,7 +67,7 @@ public class GroupControllerTest {
         User user1 = new User("user1", "user1", "user1@gmail.com", "user1", "7878564534", new HashSet<>());
         User user2 = new User("user2", "user2", "user2@gmail.com", "user2", "9876469390", new HashSet<>());
         HashSet<User> userSet = new HashSet<>(Set.of(user1, user2));
-        Group group = new Group("group1", "SPE Group", "user1", false, userSet);
+        Group group = new Group("group1", "SPE Group", "user1", userSet);
 
 
         APIResponse successResponse = new APIResponse(userSet, true);

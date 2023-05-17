@@ -12,7 +12,11 @@ import {
   Typography,
 } from "@mui/material";
 import ExpenseList from "./ExpenseList";
-import { getTransactions, settleGroup } from "../services/expenseService";
+import {
+  getTransactions,
+  settleGroup,
+  settleTransaction,
+} from "../services/expenseService";
 import { toast } from "react-toastify";
 import TransactionList from "./TransactionList";
 import { COLOR } from "../utils/constants";
@@ -53,6 +57,22 @@ function ExpenseComponent() {
     setShowAddExpenseModal(false);
   }
 
+  const makeExpensesSettled = () => {
+    console.log(groupObject.expenseList);
+    let updateExpenseList = groupObject.expenseList.map((e, i) => {
+      return {
+        ...e,
+        settled: true,
+      };
+    });
+    setGroupObject((pv) => {
+      return {
+        ...pv,
+        expenseList: updateExpenseList,
+      };
+    });
+  };
+
   async function settleUp() {
     if (groupObject.expenseList.length === 0) {
       alert("Please add expense");
@@ -61,15 +81,9 @@ function ExpenseComponent() {
       console.log("settling group");
       const responseData = await settleGroup(groupObject.group.groupID);
       if (responseData.data.success === true) {
-        // update the group in groupObject;
-        let group = groupObject.group;
-        group.settled = true;
-        setGroupObject((pv) => {
-          return {
-            ...pv,
-            group: group,
-          };
-        });
+        // update the expenses in expenseList by settle = true
+        makeExpensesSettled();
+        toast.success("settled group!");
       } else {
         toast.error(responseData.data.object);
       }
@@ -80,12 +94,31 @@ function ExpenseComponent() {
     const responseData = await getTransactions(groupObject.group.groupID);
     if (responseData.data.success === true) {
       // store the transaction in a transaction list
+      console.log(responseData.data.object);
       setShowExpenseList(false);
       setTransactionList(responseData.data.object);
     } else {
       toast.error("Cannot show transactions!");
     }
   }
+
+  const amountReceived = async (transaction) => {
+    if (window.confirm("Amount Received?")) {
+      const responseData = await settleTransaction(transaction.transactionID);
+      if (responseData.data.success === true) {
+        transaction.settled = true;
+        let newTransactions = transactionList.filter((t, i) => {
+          return t.transactionID !== transaction.transactionID;
+        });
+        setTransactionList((pv) => {
+          return [...newTransactions, transaction];
+        });
+        toast.success("Transaction settled!");
+      } else {
+        toast.error("Error settling the transaction");
+      }
+    }
+  };
 
   return (
     <div
@@ -123,7 +156,11 @@ function ExpenseComponent() {
             flexDirection: "row",
           }}
         >
-          <div>
+          <div
+            style={{
+              marginRight: "8px",
+            }}
+          >
             <button
               style={{
                 backgroundColor: COLOR.secondaryColor,
@@ -144,63 +181,60 @@ function ExpenseComponent() {
               </ExpenseProvider>
             )}
           </div>
-
+          {groupObject && (
+            <div
+              style={{
+                marginRight: "8px",
+              }}
+            >
+              <button
+                style={{
+                  color: "white",
+                  backgroundColor: COLOR.primaryColor,
+                }}
+                className="button"
+                onClick={async () => {
+                  if (window.confirm("Do you want to settle up the group?")) {
+                    await settleUp();
+                  }
+                }}
+              >
+                Settle Up
+              </button>
+            </div>
+          )}
           <div
             style={{
-              margin:
-                groupObject.group.ownerID === userObject.user_id
-                  ? "0px 8px"
-                  : "0px",
+              marginRight: "8px",
             }}
           >
-            {groupObject &&
-              groupObject.group.ownerID === userObject.user_id &&
-              (groupObject.group.settled === false ? (
-                <button
-                  style={{
-                    color: "white",
-                    backgroundColor: COLOR.primaryColor,
-                  }}
-                  className="button"
-                  onClick={async () => {
-                    if (
-                      window.confirm(
-                        "Do you want to settle up the group? \n You cannot add expenses after settling the group"
-                      )
-                    ) {
-                      await settleUp();
-                    }
-                  }}
-                >
-                  Settle Up
-                </button>
-              ) : showExpenseList === true ? (
-                <button
-                  style={{
-                    color: "white",
-                    backgroundColor: COLOR.primaryColor,
-                  }}
-                  className="button"
-                  onClick={async () => {
-                    await showTransactions();
-                  }}
-                >
-                  Show Transactions
-                </button>
-              ) : (
-                <button
-                  style={{
-                    color: "white",
-                    backgroundColor: COLOR.primaryColor,
-                  }}
-                  className="button"
-                  onClick={() => {
-                    setShowExpenseList(true);
-                  }}
-                >
-                  Show Expense List
-                </button>
-              ))}
+            {showExpenseList === true ? (
+              <button
+                style={{
+                  color: "white",
+                  backgroundColor: COLOR.primaryColor,
+                }}
+                className="button"
+                onClick={async () => {
+                  await showTransactions();
+                }}
+              >
+                Show Transactions
+              </button>
+            ) : (
+              <button
+                style={{
+                  color: "white",
+                  backgroundColor: COLOR.primaryColor,
+                }}
+                className="button"
+                onClick={() => {
+                  setShowExpenseList(true);
+                }}
+              >
+                Show Expense List
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -236,7 +270,10 @@ function ExpenseComponent() {
             </div>
           )
         ) : (
-          <TransactionList transactionList={transactionList} />
+          <TransactionList
+            transactionList={transactionList}
+            amountReceived={amountReceived}
+          />
         )}
       </div>
     </div>

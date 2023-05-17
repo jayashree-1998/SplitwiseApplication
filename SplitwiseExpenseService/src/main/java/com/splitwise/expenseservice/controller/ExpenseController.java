@@ -64,5 +64,11 @@ public class ExpenseController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/settle-transaction/{transactionID}")
+    public ResponseEntity<APIResponse> settleTransaction(@PathVariable String transactionID) {
+        APIResponse apiResponse =  this.expenseService.settleTransaction(transactionID);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 
 }

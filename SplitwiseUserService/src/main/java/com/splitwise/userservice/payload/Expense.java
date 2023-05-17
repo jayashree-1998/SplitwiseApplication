@@ -26,5 +26,5 @@ public class Expense {
 
     private Set<Paid> paidSet = new HashSet<>();
     private Set<Owe> oweSet = new HashSet<>();
-
+    private boolean isSettled;
 }

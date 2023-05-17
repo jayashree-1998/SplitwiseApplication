@@ -21,4 +21,6 @@ public interface ExpenseService {
     APIResponse settleUpGroup(String groupID);
 
     APIResponse showTransactionForGroup(String groupID);
+
+    APIResponse settleTransaction(String transactionID);
 }

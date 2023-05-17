@@ -46,8 +46,8 @@ public class UserServiceTest {
 
     @Test
     public void getAllGroupsByUserIDTest() {
-        Group group1 = new Group("group1", "SPE Group", "user1", false, new HashSet<>());
-        Group group2 = new Group("group2", "VR Group", "user2", false, new HashSet<>());
+        Group group1 = new Group("group1", "SPE Group", "user1", new HashSet<>());
+        Group group2 = new Group("group2", "VR Group", "user2", new HashSet<>());
 
         HashSet<Group> groupHashSet = new HashSet<>(Set.of(group1, group2));
 

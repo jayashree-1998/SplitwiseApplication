@@ -12,6 +12,9 @@ const settleGroupAPI = (groupID) =>
 const getTransactionsAPI = (groupID) =>
   `http://${IPAddress}/expense/show-transaction/${groupID}`;
 
+const settleTransactionAPI = (transactionID) =>
+  `http://${IPAddress}/expense/settle-transaction/${transactionID}`;
+
 async function addGroupExpense(expenseObject) {
   console.log(expenseObject);
   const responseData = await axios.post(addGroupExpenseAPI, expenseObject);
@@ -33,4 +36,15 @@ async function getTransactions(groupID) {
   return responseData;
 }
 
-export { addGroupExpense, deleteExpense, settleGroup, getTransactions };
+async function settleTransaction(transactionID) {
+  const responseData = await axios.get(settleTransactionAPI(transactionID));
+  return responseData;
+}
+
+export {
+  addGroupExpense,
+  deleteExpense,
+  settleGroup,
+  getTransactions,
+  settleTransaction,
+};
