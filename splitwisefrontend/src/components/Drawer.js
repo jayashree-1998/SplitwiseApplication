@@ -6,6 +6,8 @@ import { getGroupListForUserByID } from "../services/userService";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
+import { COLOR } from "../utils/constants";
+import Divider from "@mui/material/Divider";
 
 const Drawer = ({ onGroupSelect }) => {
   const navigate = useNavigate();
@@ -81,13 +83,35 @@ const Drawer = ({ onGroupSelect }) => {
     if (createGroupRequestBody.groupName !== "") {
       const responseData = await createGroup(createGroupRequestBody);
       const data = responseData.data;
-      console.log(data);
       if (data) {
         if (data.success === true) {
           //get Group List and set it
           setGroupList((pv) => {
             return [...pv, data.object];
           });
+          let group = {
+            groupID: data.object.groupID,
+            name: data.object.name,
+            ownerID: data.object.ownerID,
+            settled: false,
+          };
+          let userList = [
+            {
+              userID: userObject.ownerID,
+              name: userObject.name,
+              email: userObject.email,
+              password: "",
+              mobileNumber: userObject.mobileNumber,
+            },
+          ];
+          setGroupObject(() => {
+            return {
+              group: group,
+              expenseList: [],
+              userList: userList,
+            };
+          });
+          onGroupSelect(data.object.groupID);
           closeModal();
         } else {
           toast.error(data.object);
@@ -106,20 +130,49 @@ const Drawer = ({ onGroupSelect }) => {
         flex: 1,
         height: "100vh",
         width: "300px",
-        backgroundColor: "#959595",
+        backgroundColor: COLOR.secondaryColor,
         display: "flex",
         flexDirection: "column",
       }}
     >
       <label
         className="sidebar"
-        style={{ fontSize: "20px", padding: "8px 8px" }}
+        style={{
+          fontSize: "30px",
+          padding: "8px 8px",
+        }}
       >
-        {userObject.name}
+        {userObject.name.substring(0, 20)}
       </label>
-      <button className="button3" onClick={() => openModal()}>
-        Create Group
+      <Divider
+        style={{
+          backgroundColor: COLOR.dividerColor,
+        }}
+      />
+      <button
+        style={{ color: COLOR.primaryColor }}
+        className="button3"
+        onClick={() => openModal()}
+      >
+        <div
+          style={{
+            backgroundColor: COLOR.white,
+            borderRadius: "8px",
+            padding: "12px 8px",
+            borderColor: COLOR.secondaryColor,
+          }}
+        >
+          Create Group
+        </div>
       </button>
+
+      <Divider
+        variant="middle"
+        style={{
+          backgroundColor: COLOR.dividerColor,
+        }}
+      />
+
       {showAddGroupModal && (
         <CreateGroupModal
           closeModal={closeModal}
@@ -129,7 +182,14 @@ const Drawer = ({ onGroupSelect }) => {
           addGroup={addGroup}
         />
       )}
-      <div style={{ flex: 1, flexDirection: "column", overflow: "auto" }}>
+      <div
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          overflow: "auto",
+          marginTop: "12px",
+        }}
+      >
         {groupList.length !== 0 &&
           groupList.map((e, i) => {
             return (
@@ -138,9 +198,12 @@ const Drawer = ({ onGroupSelect }) => {
                 style={{
                   backgroundColor:
                     selectedGroup && selectedGroup === e.groupID
-                      ? "white"
+                      ? COLOR.primaryColor
                       : null,
                   display: "flex",
+                  borderTopRightRadius: "8px",
+                  borderBottomRightRadius: "8px",
+                  marginRight: "8px",
                 }}
               >
                 <button
@@ -148,8 +211,12 @@ const Drawer = ({ onGroupSelect }) => {
                     flex: 1,
                     color:
                       selectedGroup && selectedGroup === e.groupID
-                        ? "black"
-                        : "white",
+                        ? COLOR.white
+                        : COLOR.tertiaryColor,
+                    backgroundColor:
+                      selectedGroup && selectedGroup === e.groupID
+                        ? COLOR.primaryColor
+                        : null,
                   }}
                   className="button3"
                   onClick={() => {
@@ -162,21 +229,30 @@ const Drawer = ({ onGroupSelect }) => {
             );
           })}
       </div>
-      <div
+
+      <Divider
+        variant="middle"
         style={{
-          display: "flex",
+          backgroundColor: COLOR.dividerColor,
         }}
+      />
+
+      <button
+        style={{ color: COLOR.primaryColor }}
+        className="button3"
+        onClick={() => logout()}
       >
-        <button
+        <div
           style={{
-            flex: 1,
+            backgroundColor: COLOR.white,
+            borderRadius: "8px",
+            padding: "12px 8px",
+            borderColor: COLOR.secondaryColor,
           }}
-          className="button3"
-          onClick={logout}
         >
           Logout
-        </button>
-      </div>
+        </div>
+      </button>
     </div>
   );
 };

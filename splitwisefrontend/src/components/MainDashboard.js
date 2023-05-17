@@ -2,12 +2,14 @@ import React, { useContext } from "react";
 import Drawer from "./Drawer";
 import GroupDashboard from "./GroupDashboard";
 import { GroupDetailContext } from "../contexts/GroupDetailContext";
+import { COLOR } from "../utils/constants";
 
 function MainDashboard() {
   const [selectedGroup, setSelectedGroup, groupObject, setGroupObject] =
     useContext(GroupDetailContext);
 
   function onGroupSelect(groupID) {
+    console.log("on:", groupID);
     setSelectedGroup(groupID);
   }
 
@@ -42,7 +44,18 @@ function MainDashboard() {
         {selectedGroup ? (
           <GroupDashboard />
         ) : (
-          <div>Please select/create a group</div>
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "20px",
+              color: COLOR.gray,
+            }}
+          >
+            Please Select/Create a Group
+          </div>
         )}
       </div>
     </div>

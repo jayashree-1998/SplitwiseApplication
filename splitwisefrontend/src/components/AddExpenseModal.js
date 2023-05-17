@@ -114,7 +114,7 @@ const AddExpenseModal = ({ closeModal, modalHeading }) => {
       }
     }
     console.log(paidSum, oweSum, expenseObject.amount);
-    if (expenseObject.amount === oweSum && expenseObject.amount === oweSum) {
+    if (expenseObject.amount === oweSum && expenseObject.amount === paidSum) {
       console.log(owedSet);
       console.log(paidSet);
       addExpense(paidSet, owedSet);
@@ -165,31 +165,52 @@ const AddExpenseModal = ({ closeModal, modalHeading }) => {
         className="modal-container"
         style={{
           height: "auto",
+          flexDirection: "column",
+          display: "flex",
         }}
       >
         <div
           style={{
             display: "flex",
             flexDirection: "row",
+            fontSize: "24px",
             justifyContent: "space-between",
           }}
         >
           <label>{modalHeading}</label>
-          <button className="button" onClick={closeModal}>
-            Close
-          </button>
         </div>
-        <div className="input-box" style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            flexDirection: "row",
+            padding: "8px 0px",
+          }}
+        >
           <input
+            className="input-box"
+            style={{
+              display: "flex",
+              flex: 1,
+              borderRadius: "8px",
+              padding: "12px 4px",
+              marginRight: "8px",
+            }}
             name="expenseName"
             type="text"
             value={expenseObject.expenseName}
             placeholder={"Expense Name"}
             onChange={handleChange}
           />
-        </div>
-        <div className="input-box" style={{ display: "flex" }}>
+
           <input
+            className="input-box"
+            style={{
+              display: "flex",
+              flex: 1,
+              borderRadius: "8px",
+              padding: "12px 4px",
+            }}
             name="amount"
             type="text"
             min={"0"}
@@ -199,24 +220,36 @@ const AddExpenseModal = ({ closeModal, modalHeading }) => {
             onChange={handleChange}
           />
         </div>
-
-        <div>
-          {/* paid by button */}
-          <button className="button" onClick={() => openPaidByModal()}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            padding: "8px 0px",
+          }}
+        >
+          <button
+            style={{
+              flex: 1,
+              marginRight: "8px",
+            }}
+            className="button"
+            onClick={() => openPaidByModal()}
+          >
             Paid By
           </button>
-
           {showPaidModal && (
             <PaidByModal
               modalHeading={"Select Payers"}
               closeModal={closePaidByModal}
             />
           )}
-        </div>
-
-        <div>
-          {/* owed by button */}
-          <button className="button" onClick={() => openOwedByModal()}>
+          <button
+            style={{
+              flex: 1,
+            }}
+            className="button"
+            onClick={() => openOwedByModal()}
+          >
             Owed By
           </button>
           {showOwedModal && (
@@ -226,15 +259,36 @@ const AddExpenseModal = ({ closeModal, modalHeading }) => {
             />
           )}
         </div>
-
-        <button
-          className="button"
-          onClick={() => {
-            checkExpensePayload();
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "8px 0px",
           }}
         >
-          Add
-        </button>
+          <button
+            style={{
+              flex: 1,
+              // marginRight: "8px",
+              marginBottom: "8px",
+            }}
+            className="button"
+            onClick={() => {
+              checkExpensePayload();
+            }}
+          >
+            Add
+          </button>
+          <button
+            style={{
+              flex: 1,
+            }}
+            className="button"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
