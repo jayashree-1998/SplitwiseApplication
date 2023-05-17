@@ -24,6 +24,7 @@ public class ExpenseController {
         APIResponse apiResponse = this.expenseService.addExpense(expenseBody);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
+    
 
     @GetMapping("/get-expense-list-by-group-id/{groupID}")
     public ResponseEntity<Set<ExpenseDetail>> getExpenseListForGroup(@PathVariable String groupID) {
