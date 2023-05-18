@@ -1,4 +1,4 @@
-FROM openjdk:19
+FROM openjdk:17
 COPY JarFiles/SplitwiseExpenseService-0.0.1-SNAPSHOT.jar ./
 EXPOSE 9082
 CMD ["java","-jar","SplitwiseExpenseService-0.0.1-SNAPSHOT.jar"]

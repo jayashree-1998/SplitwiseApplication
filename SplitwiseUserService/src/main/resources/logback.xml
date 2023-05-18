@@ -9,7 +9,7 @@
     </appender>
 
     <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.FileAppender">
-        
+
         <file>../logs/splitwise.log</file>
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
